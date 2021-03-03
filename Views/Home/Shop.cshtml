@@ -1,6 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Выбирайте из широкого списка товаров!";
 }
+@model List<ProductViewModel>;
 <h1>@ViewData["Title"]</h1>
+<div class="container">
+    <div class="row">
+        @if (Model != null)
+        {
+            foreach (var Product in Model)
+            {
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                 <div class="card-body">
+                     <p>@Product.Name</p>
+                     <p>Цена: @Product.Price</p>
+                     <button class="btn btn-info" type="button">В корзину</button>
+                 </div>
+            </div>
+        </div>
+            }
+        }
+    </div>
+</div>
 
-<p>Use this page to detail your site's privacy policy.</p>
+

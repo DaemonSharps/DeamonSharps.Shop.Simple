@@ -25,7 +25,26 @@ namespace DeamonSharps.Shop.Simple.Controllers
 
         public IActionResult Shop()
         {
-            return View();
+            var products = new List<ProductViewModel>() {
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet(),
+                new ProductViewModel().GetDefaultSet()
+
+            };
+
+
+
+            return View(products);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
