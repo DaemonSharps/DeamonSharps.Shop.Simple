@@ -11,11 +11,17 @@ namespace DeamonSharps.Shop.Simple.Controllers
 {
     public class HomeController : Controller
     {
+        private List<ProductViewModel> _products;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            _products = new List<ProductViewModel>();
+            for (int i = 0; i < 9; i++)
+            {
+                _products.Add(new ProductViewModel().GetDefaultSet());
+            }
         }
 
         public IActionResult Index()
@@ -25,17 +31,13 @@ namespace DeamonSharps.Shop.Simple.Controllers
 
         public IActionResult Shop()
         {
-            var products = new List<ProductViewModel>();
-            for (int i = 0; i < 9; i++)
-            {
-                products.Add(new ProductViewModel().GetDefaultSet());
-            }
 
-
-
-            return View(products);
+            return View(_products);
         }
-
+        public IActionResult Cart()
+        {
+            return View(_products);
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
