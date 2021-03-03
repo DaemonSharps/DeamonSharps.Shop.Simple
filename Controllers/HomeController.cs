@@ -25,22 +25,11 @@ namespace DeamonSharps.Shop.Simple.Controllers
 
         public IActionResult Shop()
         {
-            var products = new List<ProductViewModel>() {
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet(),
-                new ProductViewModel().GetDefaultSet()
-
-            };
+            var products = new List<ProductViewModel>();
+            for (int i = 0; i < 9; i++)
+            {
+                products.Add(new ProductViewModel().GetDefaultSet());
+            }
 
 
 
