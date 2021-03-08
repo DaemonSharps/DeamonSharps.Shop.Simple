@@ -1,4 +1,5 @@
 ﻿using DeamonSharps.Shop.Simple.Models;
+using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,16 +13,15 @@ namespace DeamonSharps.Shop.Simple.Controllers
     public class HomeController : Controller
     {
         private List<ProductViewModel> _products;
+        private readonly ProductServiceController _productServiceController;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ProductServiceController productServiceController)
         {
             _logger = logger;
-            _products = new List<ProductViewModel>();
-            for (int i = 0; i < 9; i++)
-            {
-                _products.Add(new ProductViewModel().GetDefaultSet());
-            }
+            _productServiceController = productServiceController;
+            _products = productServiceController.GetProductsFromDB();
+            
         }
 
         public IActionResult Index()
