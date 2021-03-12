@@ -3,6 +3,7 @@ using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,8 @@ namespace DeamonSharps.Shop.Simple
                 options=> 
                 options.UseMySql( Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ProductServiceController>();
+            services.AddDistributedMemoryCache();
+            services.AddSession(); 
             
         }
 
@@ -50,6 +53,7 @@ namespace DeamonSharps.Shop.Simple
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();

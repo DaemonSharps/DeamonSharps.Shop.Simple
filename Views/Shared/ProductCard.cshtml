@@ -1,0 +1,41 @@
+﻿@using DeamonSharps.Shop.Simple.Extentions;
+@using DeamonSharps.Shop.Simple.Entities; 
+@model ProductViewModel;
+<div class="col-md-4">
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <p>@Model.Name</p>
+            <p>Цена: @Model.Price</p>
+            @{var p = Context.Session.Get<Cart>("Cart")
+                      ?.Products
+                      ?.Where(p => p.Product.Name == Model.Name)
+                      ?.FirstOrDefault() ?? new CartProduct() { Count = 0 };}
+            <p>Количество: @p.Count </p>
+            <div class="row justify-content-around">
+                @using (Html.BeginForm("Add", "Cart"))
+                {
+                    @Html.Hidden("Name", Model.Name);
+                    @Html.Hidden("returnUrl", Context.Request.Path);
+                    <input type="submit" class="btn btn-info" value="В корзину" />
+                }
+
+                @using (Html.BeginForm("Delete", "Cart"))
+                {
+                    @Html.Hidden("Name", Model.Name);
+                    @Html.Hidden("returnUrl", Context.Request.Path);
+                    @if (p.Count != 0)
+                    {
+                        <input type="submit" class="btn btn-dark" value="Удалить" />
+                    }
+                    else
+                    {
+                        <input type="submit" class="btn btn-dark" value="Удалить" disabled />
+                    }
+
+                }
+            </div>
+            
+
+        </div>
+    </div>
+</div>

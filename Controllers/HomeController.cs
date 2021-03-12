@@ -1,4 +1,6 @@
-﻿using DeamonSharps.Shop.Simple.Models;
+﻿using DeamonSharps.Shop.Simple.Entities;
+using DeamonSharps.Shop.Simple.Extentions;
+using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -36,7 +38,22 @@ namespace DeamonSharps.Shop.Simple.Controllers
         }
         public IActionResult Cart()
         {
-            return View(_products);
+            CartViewModel CartModel;
+            var cart = HttpContext.Session.Get<Cart>("Cart");
+            if (cart!=null)
+            {
+                 CartModel= new CartViewModel()
+                {
+                    Products = cart.Products,
+                    TotalPrice = cart.TotalPrice
+                };
+            }
+            else
+            {
+                CartModel = null;
+            }
+            
+            return View(CartModel);
         }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

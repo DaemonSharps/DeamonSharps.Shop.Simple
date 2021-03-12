@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace DeamonSharps.Shop.Simple.Models
 {
+    [Serializable]
     public class ProductViewModel
     {
         public string Name { get; set; }
