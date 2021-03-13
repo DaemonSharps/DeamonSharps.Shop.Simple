@@ -11,6 +11,6 @@ namespace DeamonSharps.Shop.Simple.DataBase.Context
         public ProductContext(DbContextOptions<ProductContext> options) : base(options) 
         {
         }
-        public DbSet<Entities.Product> products { get; set; }
+        public DbSet<Entities.Product> Products { get; set; }
     }
 }

@@ -16,19 +16,23 @@ namespace DeamonSharps.Shop.Simple.Controllers
     {
         private List<ProductViewModel> _products;
         private readonly ProductServiceController _productServiceController;
+        private readonly CategoryServiceController _categoryServiceController;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, ProductServiceController productServiceController)
+        public HomeController(ILogger<HomeController> logger,
+            ProductServiceController productServiceController,
+            CategoryServiceController categoryServiceController)
         {
             _logger = logger;
             _productServiceController = productServiceController;
             _products = productServiceController.GetProductsFromDB();
+            _categoryServiceController = categoryServiceController;
             
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_categoryServiceController.GetCategoriesFromDB());
         }
 
         public IActionResult Shop()

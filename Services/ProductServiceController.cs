@@ -17,7 +17,7 @@ namespace DeamonSharps.Shop.Simple.Services
         }
         public List<ProductViewModel> GetProductsFromDB()
         {
-              var   products=_productContext.products
+              var   products=_productContext.Products
                 ?.Select(s=> 
                 new ProductViewModel {
                     Name=s.Product_Name ,
