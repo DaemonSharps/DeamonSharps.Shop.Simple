@@ -10,11 +10,11 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         public int Id { get; set; }
         public string Product_Name { get; set; }
         public decimal Product_Price { get; set; }
-        public string Product_About { get; se
-        public List<ProductCategory> ProductCat
+        public string Product_About { get; set; }
+        public List<ProductCategory> ProductCategory { get; set; }
         public Product()
         {
-            ProductCategory = n
+            ProductCategory = new List<ProductCategory>();
         }
     }
 }
