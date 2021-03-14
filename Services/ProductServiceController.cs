@@ -48,7 +48,7 @@ namespace DeamonSharps.Shop.Simple.Services
                     }
                     break;
                 }
-            }
+            }       
             return products;
         }
     }

@@ -37,16 +37,19 @@ namespace DeamonSharps.Shop.Simple.Controllers
 
        
         [HttpGet]
-        public async Task<IActionResult> Shop(int categoryId)
+        public async Task<IActionResult> Shop(int categoryId,string categoryName)
         {
             var products = new List<ProductViewModel>();
             if (categoryId == 0)
             {
                 products = await _productServiceController.GetProductsFromDBAsync();
+                ViewData["Category"] = "Все товары";
             }
             else {
-                products = await _productServiceController.GetProductsFromDBByCategoryAsync(categoryId); 
+                products = await _productServiceController.GetProductsFromDBByCategoryAsync(categoryId);
+                ViewData["Category"] = categoryName;
             }
+            
             return View(products);
         }
         public IActionResult Cart()
