@@ -16,22 +16,23 @@ namespace DeamonSharps.Shop.Simple.Services
         {
             _productContext = productContext;
         }
-        public List<ProductViewModel> GetProductsFromDB()
+        public async Task<List<ProductViewModel>> GetProductsFromDBAsync()
         {
-              var   products=_productContext.Products
+              var   products= await _productContext.Products
                 ?.Select(s=> 
                 new ProductViewModel {
                     Name=s.Product_Name ,
                    Price=s.Product_Price,
                    ProductId=s.Id
                 })
-                ?.ToList();
+                ?.ToListAsync();
+
                 return products;
         }
-        public List<ProductViewModel> GetProductsFromDBByCategory(int categoryId)
+        public async Task<List<ProductViewModel>> GetProductsFromDBByCategoryAsync(int categoryId)
         {
             var products = new List<ProductViewModel>();
-            var categories = _productContext.Categories.Include(cat => cat.ProductCategory).ThenInclude(p => p.Product).ToList();
+            var categories = await _productContext.Categories.Include(cat => cat.ProductCategory).ThenInclude(p => p.Product).ToListAsync();
             foreach (var cat in categories)
             {
                 if (cat.Id==categoryId)
@@ -49,6 +50,6 @@ namespace DeamonSharps.Shop.Simple.Services
                 }
             }
             return products;
-                }
+        }
     }
 }

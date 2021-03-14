@@ -63,12 +63,16 @@ namespace DeamonSharps.Shop.Simple.Entities
         {
            var product= productsList.Where(p => p.Product.Name == Name).FirstOrDefault();
             productsList.Remove(product);
-            product.Count--;
-            if (product.Count>0)
+            if (product != null)
             {
-                productsList.Add(product);
+                product.Count--;
+
+
+                if (product.Count > 0)
+                {
+                    productsList.Add(product);
+                }
             }
-           
             
             context.Session.Set("Cart", this);
         }

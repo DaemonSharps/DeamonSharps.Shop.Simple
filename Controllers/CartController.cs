@@ -16,9 +16,11 @@ namespace DeamonSharps.Shop.Simple.Controllers
         {
             _productServiceController = productServiceController;
         }
-        public IActionResult Add(string Name,string returnUrl)
+        public async Task<IActionResult> Add(string Name,string returnUrl)
         {
-            var product =_productServiceController.GetProductsFromDB().Where(p => p.Name == Name).FirstOrDefault();
+            var products = await _productServiceController.GetProductsFromDBAsync();
+            var product=   products.Where(p => p.Name == Name)
+                .FirstOrDefault();
             if (product!=null)
             {
 

@@ -29,23 +29,23 @@ namespace DeamonSharps.Shop.Simple.Controllers
             
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_categoryServiceController.GetCategoriesFromDB());
+            return View( await _categoryServiceController.GetCategoriesFromDBAsync());
         }
 
 
        
         [HttpGet]
-        public IActionResult Shop(int categoryId)
+        public async Task<IActionResult> Shop(int categoryId)
         {
             var products = new List<ProductViewModel>();
             if (categoryId == 0)
             {
-                products = _productServiceController.GetProductsFromDB();
+                products = await _productServiceController.GetProductsFromDBAsync();
             }
             else {
-                products = _productServiceController.GetProductsFromDBByCategory(categoryId); 
+                products = await _productServiceController.GetProductsFromDBByCategoryAsync(categoryId); 
             }
             return View(products);
         }
@@ -57,7 +57,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
             {
                  CartModel= new CartViewModel()
                 {
-                    Products = cart.Products,
+                    Products = cart.Products.OrderBy(p=>p.Product.ProductId).ToList(),
                     TotalPrice = cart.TotalPrice
                 };
             }
