@@ -10,16 +10,16 @@ namespace DeamonSharps.Shop.Simple.Services
 {
     public class CategoryServiceController : Controller
     {
-        private readonly CategoryContext _categoryContext;
-        public CategoryServiceController(CategoryContext categoryContext)
+        private readonly ProductContext _productContext;
+        public CategoryServiceController(ProductContext productContext)
         {
-            _categoryContext = categoryContext;
+            _productContext = productContext;
         }
         public List<CategoryViewModel> GetCategoriesFromDB()
         {
-            var categories = _categoryContext?.Categories?.Select(
+            var categories = _productContext?.Categories?.Select(
                 cat => new CategoryViewModel()
-                {
+                { Id=cat.Id,
                     Name = cat.Category_Name
                 }).ToList();
             return categories;

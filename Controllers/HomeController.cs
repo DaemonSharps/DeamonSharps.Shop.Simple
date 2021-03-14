@@ -14,7 +14,6 @@ namespace DeamonSharps.Shop.Simple.Controllers
 {
     public class HomeController : Controller
     {
-        private List<ProductViewModel> _products;
         private readonly ProductServiceController _productServiceController;
         private readonly CategoryServiceController _categoryServiceController;
         private readonly ILogger<HomeController> _logger;
@@ -25,7 +24,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         {
             _logger = logger;
             _productServiceController = productServiceController;
-            _products = productServiceController.GetProductsFromDB();
+            
             _categoryServiceController = categoryServiceController;
             
         }
@@ -35,10 +34,20 @@ namespace DeamonSharps.Shop.Simple.Controllers
             return View(_categoryServiceController.GetCategoriesFromDB());
         }
 
-        public IActionResult Shop()
-        {
 
-            return View(_products);
+       
+        [HttpGet]
+        public IActionResult Shop(int categoryId)
+        {
+            var products = new List<ProductViewModel>();
+            if (categoryId == 0)
+            {
+                products = _productServiceController.GetProductsFromDB();
+            }
+            else {
+                products = _productServiceController.GetProductsFromDBByCategory(categoryId); 
+            }
+            return View(products);
         }
         public IActionResult Cart()
         {
