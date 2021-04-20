@@ -14,7 +14,7 @@ namespace DeamonSharps.Shop.Simple.DataBase.Context
         public DbSet<Category> Categories { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //maany-to-many link in EF version < 5
+            //many-to-many link in EF version < 5
             modelBuilder.Entity<ProductCategory>()
             .HasKey(t => new { t.Category_Id, t.Product_Id});
 

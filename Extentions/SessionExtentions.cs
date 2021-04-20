@@ -12,6 +12,10 @@ namespace DeamonSharps.Shop.Simple.Extentions
     public static class SessionExtentions
     {
         private static readonly IFormatter _formatter = new BinaryFormatter();
+
+        /// <summary>
+        /// Получает объект из сессии по ключу
+        /// </summary>
         public static T Get<T>(this ISession session,string key) where T : class
         {
             if (session.TryGetValue(key, out byte[] data)==true)
@@ -27,6 +31,9 @@ namespace DeamonSharps.Shop.Simple.Extentions
                 return null;
             }
         }
+        /// <summary>
+        /// Сериализует объект в сессию по ключу
+        /// </summary>
         public static void Set(this ISession session, string key, object data) 
         {
             using (var stream= new MemoryStream())

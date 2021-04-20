@@ -9,7 +9,13 @@ namespace DeamonSharps.Shop.Simple.Models
     [Serializable]
     public class CartViewModel
     {
+        /// <summary>
+        /// Список продуктов в корзине
+        /// </summary>
         public List<CartProduct> Products { get; set; }
+        /// <summary>
+        /// Суммарная стоимость корзины
+        /// </summary>
         public decimal TotalPrice { get; set; }
     }
     /// <summary>

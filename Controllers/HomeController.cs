@@ -28,14 +28,17 @@ namespace DeamonSharps.Shop.Simple.Controllers
             _categoryServiceController = categoryServiceController;
             
         }
-
+        /// <summary>
+        /// Начальная страница с категориями продуктов
+        /// </summary>
         public async Task<IActionResult> Index()
         {
-            return View( await _categoryServiceController.GetCategoriesFromDBAsync());
+            return View(await _categoryServiceController.GetCategoriesFromDBAsync());
         }
-
-
        
+        /// <summary>
+        /// Страница с продуктами в категории или всеми товарами
+        /// </summary>
         [HttpGet]
         public async Task<IActionResult> Shop(int categoryId,string categoryName)
         {
@@ -52,6 +55,9 @@ namespace DeamonSharps.Shop.Simple.Controllers
             
             return View(products);
         }
+        /// <summary>
+        /// Страница для просмотра и управления содержимым страницы
+        /// </summary>
         public IActionResult Cart()
         {
             CartViewModel CartModel;
@@ -71,6 +77,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
             
             return View(CartModel);
         }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
