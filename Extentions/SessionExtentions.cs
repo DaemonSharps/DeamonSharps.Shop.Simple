@@ -11,7 +11,7 @@ namespace DeamonSharps.Shop.Simple.Extentions
 {
     public static class SessionExtentions
     {
-        private static IFormatter _formatter = new BinaryFormatter();
+        private static readonly IFormatter _formatter = new BinaryFormatter();
         public static T Get<T>(this ISession session,string key) where T : class
         {
             if (session.TryGetValue(key, out byte[] data)==true)
