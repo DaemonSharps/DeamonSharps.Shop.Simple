@@ -1,5 +1,3 @@
-using System;
-
 namespace DeamonSharps.Shop.Simple.Models
 {
     public class ErrorViewModel

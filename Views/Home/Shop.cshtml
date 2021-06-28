@@ -2,7 +2,7 @@
     ViewData["Title"] = "Магазин";
 }
 @model List<ProductViewModel>;
-<h1>@ViewData["Title"]->@ViewData["Category"]</h1>
+<h1>@ViewData["Title"]-@ViewData["Category"]</h1>
 <div class="container">
     <div class="row">
         @if (Model!=null)

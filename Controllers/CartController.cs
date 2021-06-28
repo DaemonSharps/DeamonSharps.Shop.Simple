@@ -3,7 +3,6 @@ using DeamonSharps.Shop.Simple.Extentions;
 using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,25 +25,25 @@ namespace DeamonSharps.Shop.Simple.Controllers
         /// <param name="Name">Имя продукта</param>
         /// <param name="returnUrl">Адресс страницы, на которую нужно вернуться</param>
         /// <returns></returns>
-        public async Task<IActionResult> Add(string Name,string returnUrl)
+        public async Task<IActionResult> Add(string Name, string returnUrl)
         {
             var products = await _productServiceController.GetProductsFromDBAsync();
-            var product=   products.Where(p => p.Name == Name)
+            var product = products.Where(p => p.Name == Name)
                 .FirstOrDefault();
-            if (product!=null)
+            if (product != null)
             {
 
-               GetCart().Add(product,HttpContext);
+                GetCart().Add(product, HttpContext);
             }
-            return LocalRedirect("~"+returnUrl);
+            return LocalRedirect("~" + returnUrl);
         }
         /// <summary>
         /// Удалить продукт из корзины
         /// </summary>
-        public IActionResult Delete(string Name,string returnUrl)
+        public IActionResult Delete(string Name, string returnUrl)
         {
-            GetCart().Delete(Name,HttpContext);
-            return LocalRedirect("~"+returnUrl);
+            GetCart().Delete(Name, HttpContext);
+            return LocalRedirect("~" + returnUrl);
         }
         /// <summary>
         /// Очистить корзину
@@ -52,7 +51,12 @@ namespace DeamonSharps.Shop.Simple.Controllers
         public IActionResult Clear(string returnUrl)
         {
             GetCart().Clean(HttpContext);
-            return LocalRedirect("~"+returnUrl);
+            return LocalRedirect("~" + returnUrl);
+        }
+        public IActionResult CreateOrder()
+        {
+
+            return View();
         }
         /// <summary>
         /// Получает экземпляр корзины из сессии либо создает пустую
@@ -60,15 +64,15 @@ namespace DeamonSharps.Shop.Simple.Controllers
         /// <returns></returns>
         private Cart GetCart()
         {
-           Cart existedCart= HttpContext.Session.Get<Cart>("Cart");
-            if (existedCart==null)
+            Cart existedCart = HttpContext.Session.Get<Cart>("Cart");
+            if (existedCart == null)
             {
                 existedCart = new Cart();
-                HttpContext.Session.Set("Cart",existedCart);
-            } 
+                HttpContext.Session.Set("Cart", existedCart);
+            }
             return existedCart;
         }
-        
+
     }
-    
+
 }

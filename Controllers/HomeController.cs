@@ -4,7 +4,6 @@ using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -24,9 +23,9 @@ namespace DeamonSharps.Shop.Simple.Controllers
         {
             _logger = logger;
             _productServiceController = productServiceController;
-            
+
             _categoryServiceController = categoryServiceController;
-            
+
         }
         /// <summary>
         /// Начальная страница с категориями продуктов
@@ -35,12 +34,12 @@ namespace DeamonSharps.Shop.Simple.Controllers
         {
             return View(await _categoryServiceController.GetCategoriesFromDBAsync());
         }
-       
+
         /// <summary>
         /// Страница с продуктами в категории или всеми товарами
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> Shop(int categoryId,string categoryName)
+        public async Task<IActionResult> Shop(int categoryId, string categoryName)
         {
             var products = new List<ProductViewModel>();
             if (categoryId == 0)
@@ -48,11 +47,12 @@ namespace DeamonSharps.Shop.Simple.Controllers
                 products = await _productServiceController.GetProductsFromDBAsync();
                 ViewData["Category"] = "Все товары";
             }
-            else {
+            else
+            {
                 products = await _productServiceController.GetProductsFromDBByCategoryAsync(categoryId);
                 ViewData["Category"] = categoryName;
             }
-            
+
             return View(products);
         }
         /// <summary>
@@ -62,11 +62,11 @@ namespace DeamonSharps.Shop.Simple.Controllers
         {
             CartViewModel CartModel;
             var cart = HttpContext.Session.Get<Cart>("Cart");
-            if (cart!=null)
+            if (cart != null)
             {
-                 CartModel= new CartViewModel()
+                CartModel = new CartViewModel()
                 {
-                    Products = cart.Products.OrderBy(p=>p.Product.ProductId).ToList(),
+                    Products = cart.Products.OrderBy(p => p.Product.ProductId).ToList(),
                     TotalPrice = cart.TotalPrice
                 };
             }
@@ -74,7 +74,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
             {
                 CartModel = null;
             }
-            
+
             return View(CartModel);
         }
 

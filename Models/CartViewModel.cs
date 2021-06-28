@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DeamonSharps.Shop.Simple.Entities;
 
 namespace DeamonSharps.Shop.Simple.Models
 {

@@ -2,16 +2,10 @@ using DeamonSharps.Shop.Simple.DataBase.Context;
 using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Session;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DeamonSharps.Shop.Simple
 {
@@ -29,13 +23,13 @@ namespace DeamonSharps.Shop.Simple
         {
             services.AddControllersWithViews();
             services.AddDbContext<ProductContext>(
-                options=> 
-                options.UseMySql( Configuration.GetConnectionString("DefaultConnection")));
+                options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ProductServiceController>();
             services.AddTransient<CategoryServiceController>();
             services.AddDistributedMemoryCache();
-            services.AddSession(); 
-            
+            services.AddSession();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
