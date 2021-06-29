@@ -42,14 +42,24 @@
                     </tfoot>
             </table>
             <div class="row justify-content-around">
-                @using (Html.BeginForm("CreateOrder", "Cart"))
+                @using (Html.BeginForm("CreateOrder", "Cart", FormMethod.Post))
                 {
+                    @Html.Hidden("returnUrl", Context.Request.Path);
+                    for (int i = 0; i < Model.Products.Count(); i++)
+                    {
+                        <input type="hidden" name="products.Index" value="@i" />
+                        <input type="hidden" name="products[@i].Count" value="@Model.Products[i].Count" />
+                        <input type="hidden" name="products[@i].Product.Name" value="@Model.Products[i].Product.Name" />
+                        <input type="hidden" name="products[@i].Product.Price" value="@Model.Products[i].Product.Price" />
+                        <input type="hidden" name="products[@i].Product.ProductId" value="@Model.Products[i].Product.ProductId" />
+                    }
+
                     <input type="submit" class="btn btn-outline-success" value="Подтвердить" />
                 }
-                @using (Html.BeginForm("Clear","Cart"))
+                @using (Html.BeginForm("Clear", "Cart"))
                 {
-                @Html.Hidden("returnUrl", Context.Request.Path);
-                <input type="submit" class="btn btn-outline-info" value="Очистить корзину" />
+                    @Html.Hidden("returnUrl", Context.Request.Path);
+                    <input type="submit" class="btn btn-outline-info" value="Очистить корзину" />
                 }
             </div>
             

@@ -1,8 +1,11 @@
 ﻿using DeamonSharps.Shop.Simple.Entities;
 using DeamonSharps.Shop.Simple.Extentions;
+using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,13 +14,16 @@ namespace DeamonSharps.Shop.Simple.Controllers
     public class CartController : Controller
     {
         private readonly ProductServiceController _productServiceController;
+        private readonly OrderServiceController _orderServiceController;
         /// <summary>
         /// Контроллер для управления корзиной с заказом
         /// </summary>
         /// <param name="productServiceController">Сервис для подгрузки продуктов из БД</param>
-        public CartController(ProductServiceController productServiceController)
+        /// <param name="orderServiceController">Сервис для работы с заказами в БД</param>
+        public CartController(ProductServiceController productServiceController, OrderServiceController orderServiceController)
         {
             _productServiceController = productServiceController;
+            _orderServiceController = orderServiceController;
         }
         /// <summary>
         /// Добавить продукт в корзину
@@ -53,10 +59,12 @@ namespace DeamonSharps.Shop.Simple.Controllers
             GetCart().Clean(HttpContext);
             return LocalRedirect("~" + returnUrl);
         }
-        public IActionResult CreateOrder()
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([Required] string returnUrl, [Required] IEnumerable<CartProduct> products)
         {
+            await _orderServiceController.CreateOrderInDB(products);
 
-            return View();
+            return LocalRedirect("~" + returnUrl);
         }
         /// <summary>
         /// Получает экземпляр корзины из сессии либо создает пустую

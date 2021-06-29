@@ -25,8 +25,12 @@ namespace DeamonSharps.Shop.Simple
             services.AddDbContext<ProductContext>(
                 options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<OrderContext>(
+                options =>
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ProductServiceController>();
             services.AddTransient<CategoryServiceController>();
+            services.AddTransient<OrderServiceController>();
             services.AddDistributedMemoryCache();
             services.AddSession();
 
