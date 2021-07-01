@@ -25,6 +25,30 @@ namespace DeamonSharps.Shop.Simple.Controllers
             _productServiceController = productServiceController;
             _orderServiceController = orderServiceController;
         }
+
+        /// <summary>
+        /// Страница для просмотра и управления содержимым корзины
+        /// </summary>
+        public IActionResult Index()
+        {
+            CartViewModel CartModel;
+            var cart = HttpContext.Session.Get<Cart>("Cart");
+            if (cart != null)
+            {
+                CartModel = new CartViewModel()
+                {
+                    Products = cart.Products.OrderBy(p => p.Product.ProductId).ToList(),
+                    TotalPrice = cart.TotalPrice
+                };
+            }
+            else
+            {
+                CartModel = null;
+            }
+
+            return View(CartModel);
+        }
+
         /// <summary>
         /// Добавить продукт в корзину
         /// </summary>
