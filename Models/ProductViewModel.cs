@@ -6,7 +6,7 @@ namespace DeamonSharps.Shop.Simple.Models
     public class ProductViewModel
     {
         /// <summary>
-        /// Название продукт
+        /// Название продукта
         /// </summary>
         public string Name { get; set; }
 
