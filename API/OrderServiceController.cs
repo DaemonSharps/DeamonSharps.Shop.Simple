@@ -3,14 +3,20 @@ using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DeamonSharps.Shop.Simple.Services
 {
-    public class OrderServiceController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
+    public class OrderServiceController : ControllerBase
     {
         private readonly ShopDBContext _shopDBContext;
 
@@ -20,34 +26,57 @@ namespace DeamonSharps.Shop.Simple.Services
         {
             _shopDBContext = shopDBContext;
         }
-        public async Task CreateOrderInDB(IEnumerable<CartProduct> products)
+
+        /// <summary>
+        /// Создание заказа
+        /// </summary>
+        /// <param name="products">Список продуктов в корзине</param>
+        /// <returns></returns>
+        [HttpPost("CreateOrder")]
+        [SwaggerOperation("CreateOrder")]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CreateOrderInDBAsync(IEnumerable<CartProduct> products)
         {
-            var order = new Order
+            try
             {
-                User_Id = 2,
-                Creation_Date = DateTime.Now,
-                Status_Id = 1
-            };
-            _shopDBContext?.Shop_Orders.Add(order);
-
-            for (int i = 0; i < products.Count(); i++)
-            {
-                order.Order_Composition.Add(new OrderComposition
+                var order = new Order
                 {
-                    Order_Id = order.Id,
-                    Product_Id = products.ElementAt(i).Product.ProductId,
-                    ProductCount = products.ElementAt(i).Count
-                });
-            }
+                    User_Id = 2,
+                    Creation_Date = DateTime.Now,
+                    Status_Id = 1
+                };
+                _shopDBContext?.Shop_Orders.Add(order);
 
-            await _shopDBContext.SaveChangesAsync();
+                for (int i = 0; i < products.Count(); i++)
+                {
+                    order.Order_Composition.Add(new OrderComposition
+                    {
+                        Order_Id = order.Id,
+                        Product_Id = products.ElementAt(i).Product.ProductId,
+                        ProductCount = products.ElementAt(i).Count
+                    });
+                }
+
+                await _shopDBContext.SaveChangesAsync();
+
+                return Ok($"Заказ создан успешно, номер: {order.Id}");
+            }
+            catch (DbUpdateException e)
+            {
+
+                return BadRequest(e.InnerException.Message);
+            }
+            
         }
 
         /// <summary>
         /// Получение всех заказов из БД
         /// </summary>
         /// <returns>Список заказов</returns>
-        public async Task<List<Order>> GetOrders()
+        [HttpGet("GetOrders")]
+        [SwaggerOperation("GetOrders")]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        public async Task<List<Order>> GetOrdersAsync()
         {
             var orders = await _shopDBContext?.Shop_Orders
                 .Include(o => o.User)
@@ -63,13 +92,16 @@ namespace DeamonSharps.Shop.Simple.Services
         /// </summary>
         /// <param name="page">Номер страницы</param>
         /// <returns>Список заказов</returns>
-        public async Task<List<Order>> GetOrdersByPage(int page)
+        [HttpGet("GetOrdersByPage")]
+        [SwaggerOperation]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        public async Task<List<Order>> GetOrdersByPageAsync(int page)
         {
             var orders = new List<Order>();
             var orderFrom = PerPage * (page - 1);
             var orderTo = (page * PerPage) - 1;
 
-            var ordersDB = await GetOrders();
+            var ordersDB = await GetOrdersAsync();
 
             for (int i = orderFrom; i <= orderTo; i++)
             {
@@ -87,7 +119,10 @@ namespace DeamonSharps.Shop.Simple.Services
         /// Получить количество страниц для заказов
         /// </summary>
         /// <returns></returns>
-        public async Task<int> GetPageCount()
+        [HttpGet("GetPageCount")]
+        [SwaggerOperation("GetPageCount")]
+        [SwaggerResponse((int)HttpStatusCode.OK)]
+        public async Task<int> GetPageCountAsync()
         {
             var orderCount = await Task.Run(() =>
                 {

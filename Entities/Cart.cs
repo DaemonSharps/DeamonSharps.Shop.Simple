@@ -36,6 +36,7 @@ namespace DeamonSharps.Shop.Simple.Entities
         /// Добавить продукт в корзину
         /// </summary>
         /// <param name="product">Добавляемый продукт</param>
+        /// <param name="context"></param>
         public void Add(ProductViewModel product, HttpContext context)
         {
             CartProduct existedProduct = productsList
@@ -60,7 +61,8 @@ namespace DeamonSharps.Shop.Simple.Entities
         /// <summary>
         /// Удалить продукт из корзины
         /// </summary>
-        /// <param name="product">Удаляемый продукт</param>
+        /// <param name="Name">Название удаляемого продукта</param>
+        /// <param name="context"></param>
         public void Delete(string Name, HttpContext context)
         {
             var product = productsList.Where(p => p.Product.Name == Name).FirstOrDefault();

@@ -2,12 +2,17 @@
 using DeamonSharps.Shop.Simple.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DeamonSharps.Shop.Simple.Services
 {
+    [ApiController]
+    [Route("api/[controller]")]
+    [Produces("application/json")]
     public class ProductServiceController : Controller
     {
         private readonly ShopDBContext _shopDBContext;
@@ -15,6 +20,14 @@ namespace DeamonSharps.Shop.Simple.Services
         {
             _shopDBContext = shopDBContext;
         }
+
+        /// <summary>
+        /// Получить список всех продуктов
+        /// </summary>
+        /// <returns>Список продуктов</returns>
+        [HttpGet("GetProducts")]
+        [SwaggerOperation("GetProducts")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<ProductViewModel>))]
         public async Task<List<ProductViewModel>> GetProductsFromDBAsync()
         {
             var products = await _shopDBContext.Products
@@ -29,6 +42,15 @@ namespace DeamonSharps.Shop.Simple.Services
 
             return products;
         }
+
+        /// <summary>
+        /// Получить список продуктов по категории
+        /// </summary>
+        /// <param name="categoryId">Номер категории</param>
+        /// <returns>Список продуктов</returns>
+        [HttpGet("GetProductsByCategory")]
+        [SwaggerOperation("GetProductsByCategory")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<ProductViewModel>))]
         public async Task<List<ProductViewModel>> GetProductsFromDBByCategoryAsync(int categoryId)
         {
             var products = new List<ProductViewModel>();

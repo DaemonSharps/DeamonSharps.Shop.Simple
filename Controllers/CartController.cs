@@ -86,7 +86,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([Required] string returnUrl, [Required] IEnumerable<CartProduct> products)
         {
-            await _orderServiceController.CreateOrderInDB(products);
+            await _orderServiceController.CreateOrderInDBAsync(products);
 
             GetCart().Clean(HttpContext);
 

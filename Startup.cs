@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace DeamonSharps.Shop.Simple
 {
@@ -17,6 +21,15 @@ namespace DeamonSharps.Shop.Simple
         }
 
         public IConfiguration Configuration { get; }
+
+        public string XMLPath { 
+            get 
+            {
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                return xmlPath;
+            }
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -32,6 +45,18 @@ namespace DeamonSharps.Shop.Simple
             services.AddDistributedMemoryCache();
             services.AddSession();
 
+            services.AddSwaggerGen(setup =>
+            {
+                setup.SwaggerDoc(
+                    "v1.0",
+                    new OpenApiInfo
+                    {
+                        Title = "DaemonSharps.Shop.BuisnessLogicServices",
+                        Version = "1.0"
+                    });
+                setup.CustomSchemaIds(type => type.ToString());
+                setup.IncludeXmlComments(XMLPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,10 +73,17 @@ namespace DeamonSharps.Shop.Simple
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            app.UseFileServer();
 
             app.UseSession();
+            app.UseSwagger();
             app.UseRouting();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1.0/swagger.json", "BusinessLogicServices");
+                options.RoutePrefix = "swagger";
+            });
 
             app.UseAuthorization();
 

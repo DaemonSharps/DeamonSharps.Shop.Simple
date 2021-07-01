@@ -24,8 +24,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
         public async Task<IActionResult> Index(int page)
         {
             page = page == 0 ? 1 : page;
-            var pageCount = await _orderServiceController.GetPageCount();
-            var orders = await _orderServiceController.GetOrdersByPage(page);
+            var pageCount = await _orderServiceController.GetPageCountAsync();
+            var orders = await _orderServiceController.GetOrdersByPageAsync(page);
 
             var pageModel = new OrderPageViewModel
             {
