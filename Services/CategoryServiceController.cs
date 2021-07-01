@@ -10,14 +10,14 @@ namespace DeamonSharps.Shop.Simple.Services
 {
     public class CategoryServiceController : Controller
     {
-        private readonly ProductContext _productContext;
-        public CategoryServiceController(ProductContext productContext)
+        private readonly ShopDBContext _shopDBContext;
+        public CategoryServiceController(ShopDBContext shopDBContext)
         {
-            _productContext = productContext;
+            _shopDBContext = shopDBContext;
         }
         public async Task<List<CategoryViewModel>> GetCategoriesFromDBAsync()
         {
-            var categories = await _productContext?.Categories?.Select(
+            var categories = await _shopDBContext?.Categories?.Select(
                 cat => new CategoryViewModel()
                 {
                     Id = cat.Id,

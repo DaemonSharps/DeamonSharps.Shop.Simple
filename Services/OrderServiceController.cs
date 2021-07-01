@@ -12,13 +12,13 @@ namespace DeamonSharps.Shop.Simple.Services
 {
     public class OrderServiceController : Controller
     {
-        private readonly OrderContext _orderContext;
+        private readonly ShopDBContext _shopDBContext;
 
         private const int PerPage = 10;
 
-        public OrderServiceController(OrderContext orderContext)
+        public OrderServiceController(ShopDBContext shopDBContext)
         {
-            _orderContext = orderContext;
+            _shopDBContext = shopDBContext;
         }
         public async Task CreateOrderInDB(IEnumerable<CartProduct> products)
         {
@@ -28,7 +28,7 @@ namespace DeamonSharps.Shop.Simple.Services
                 Creation_Date = DateTime.Now,
                 Status_Id = 1
             };
-            _orderContext?.Shop_Orders.Add(order);
+            _shopDBContext?.Shop_Orders.Add(order);
 
             for (int i = 0; i < products.Count(); i++)
             {
@@ -40,7 +40,7 @@ namespace DeamonSharps.Shop.Simple.Services
                 });
             }
 
-            await _orderContext.SaveChangesAsync();
+            await _shopDBContext.SaveChangesAsync();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace DeamonSharps.Shop.Simple.Services
         /// <returns>Список заказов</returns>
         public async Task<List<Order>> GetOrders()
         {
-            var orders = await _orderContext?.Shop_Orders
+            var orders = await _shopDBContext?.Shop_Orders
                 .Include(o => o.User)
                 .Include(o => o.Status)
                 .Include(o => o.Order_Composition)
@@ -91,7 +91,7 @@ namespace DeamonSharps.Shop.Simple.Services
         {
             var orderCount = await Task.Run(() =>
                 {
-                    return _orderContext.Shop_Orders.Count();
+                    return _shopDBContext.Shop_Orders.Count();
                 });
 
             var pageCount = 0;

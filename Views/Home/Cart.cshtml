@@ -4,7 +4,7 @@
 @model CartViewModel;
 <div class="container">
     <div class="table">
-        @if (@Model?.Products.Count != 0)
+        @if (@Model != null && Model.Products.Count != 0)
         {
             <table class="table table-striped table-sm">
                 <thead>

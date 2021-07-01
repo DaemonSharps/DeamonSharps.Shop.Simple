@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DeamonSharps.Shop.Simple.DataBase.Context
 {
-    public class OrderContext : DbContext
+    public class ShopDBContext : DbContext
     {
-        public OrderContext(DbContextOptions<OrderContext> options) : base(options) { }
+        public ShopDBContext(DbContextOptions<ShopDBContext> options) : base(options) { }
 
         public DbSet<Product> Products { get; set; }
 
@@ -13,7 +13,11 @@ namespace DeamonSharps.Shop.Simple.DataBase.Context
 
         public DbSet<OrderStatus> OrderStatus { get; set; }
 
-        public DbSet<User> User { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +30,11 @@ namespace DeamonSharps.Shop.Simple.DataBase.Context
                 .HasOne(order => order.User)
                 .WithMany(user => user.Orders)
                 .HasForeignKey(order => order.User_Id);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(u => u.Role_Id);
 
             //many-to-many link in EF version < 5
             modelBuilder.Entity<OrderComposition>()
@@ -40,6 +49,21 @@ namespace DeamonSharps.Shop.Simple.DataBase.Context
                 ?.HasOne(o => o.Product)
                 ?.WithMany(m => m.Order_Composition)
                 ?.HasForeignKey(fk => fk.Product_Id);
+
+
+            //many-to-many link in EF version < 5
+            modelBuilder.Entity<ProductCategory>()
+            .HasKey(t => new { t.Category_Id, t.Product_Id });
+
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(cc => cc.Category)
+                .WithMany(c => c.ProductCategory)
+                .HasForeignKey(cc => cc.Category_Id);
+
+            modelBuilder.Entity<ProductCategory>()
+                .HasOne(pc => pc.Product)
+                .WithMany(p => p.ProductCategory)
+                .HasForeignKey(pc => pc.Product_Id);
         }
     }
 }

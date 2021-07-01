@@ -17,6 +17,6 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         /// <summary>
         /// Поле для реализации one-to-many с пользователями
         /// </summary>
-        public List<User> Users { get; set; }
+        public List<User> Users { get; set; } = new List<User>();
     }
 }

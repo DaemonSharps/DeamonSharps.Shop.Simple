@@ -10,14 +10,14 @@ namespace DeamonSharps.Shop.Simple.Services
 {
     public class ProductServiceController : Controller
     {
-        private readonly ProductContext _productContext;
-        public ProductServiceController(ProductContext productContext)
+        private readonly ShopDBContext _shopDBContext;
+        public ProductServiceController(ShopDBContext shopDBContext)
         {
-            _productContext = productContext;
+            _shopDBContext = shopDBContext;
         }
         public async Task<List<ProductViewModel>> GetProductsFromDBAsync()
         {
-            var products = await _productContext.Products
+            var products = await _shopDBContext.Products
               ?.Select(s =>
               new ProductViewModel
               {
@@ -32,7 +32,7 @@ namespace DeamonSharps.Shop.Simple.Services
         public async Task<List<ProductViewModel>> GetProductsFromDBByCategoryAsync(int categoryId)
         {
             var products = new List<ProductViewModel>();
-            var categories = await _productContext.Categories.Include(cat => cat.ProductCategory).ThenInclude(p => p.Product).ToListAsync();
+            var categories = await _shopDBContext.Categories.Include(cat => cat.ProductCategory).ThenInclude(p => p.Product).ToListAsync();
             foreach (var cat in categories)
             {
                 if (cat.Id == categoryId)

@@ -64,6 +64,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
         {
             await _orderServiceController.CreateOrderInDB(products);
 
+            GetCart().Clean(HttpContext);
+
             return LocalRedirect("~" + returnUrl);
         }
         /// <summary>
