@@ -19,6 +19,11 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         public int User_Id { get; set; }
 
         /// <summary>
+        /// Поле для реализации связи one-to-many с пользователем
+        /// </summary>
+        public User User { get; set; }
+
+        /// <summary>
         /// Дата создания заказа
         /// </summary>
         [Column("Creation_Date")]
@@ -28,6 +33,11 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         /// Номер из таблицы статусов
         /// </summary>
         public int Status_Id { get; set; }
+
+        /// <summary>
+        /// Поле для реализации one-to-many со статусом
+        /// </summary>
+        public OrderStatus Status { get; set; }
 
         /// <summary>
         /// Поле для реализации связи many-to-many

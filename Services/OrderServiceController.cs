@@ -14,7 +14,7 @@ namespace DeamonSharps.Shop.Simple.Services
     {
         private readonly OrderContext _orderContext;
 
-        private const int PerPage = 14;
+        private const int PerPage = 10;
 
         public OrderServiceController(OrderContext orderContext)
         {
@@ -50,6 +50,8 @@ namespace DeamonSharps.Shop.Simple.Services
         public async Task<List<Order>> GetOrders()
         {
             var orders = await _orderContext?.Shop_Orders
+                .Include(o => o.User)
+                .Include(o => o.Status)
                 .Include(o => o.Order_Composition)
                 .ThenInclude(oc => oc.Product)
                 .ToListAsync();
@@ -71,13 +73,13 @@ namespace DeamonSharps.Shop.Simple.Services
 
             for (int i = orderFrom; i <= orderTo; i++)
             {
-                if (i <= ordersDB.Count -1 )
+                if (i <= ordersDB.Count - 1)
                 {
                     orders.Add(ordersDB.ElementAt(i));
                 }
-                
+
             }
-            
+
             return orders ?? new List<Order>();
         }
 
@@ -87,9 +89,9 @@ namespace DeamonSharps.Shop.Simple.Services
         /// <returns></returns>
         public async Task<int> GetPageCount()
         {
-            var orderCount = await Task.Run(()=> 
+            var orderCount = await Task.Run(() =>
                 {
-                    return _orderContext.Shop_Orders.Count(); 
+                    return _orderContext.Shop_Orders.Count();
                 });
 
             var pageCount = 0;

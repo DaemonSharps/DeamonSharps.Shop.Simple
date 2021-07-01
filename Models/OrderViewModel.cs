@@ -51,7 +51,7 @@ namespace DeamonSharps.Shop.Simple.Models
         /// <summary>
         /// Имя
         /// </summary>
-        public string FirstNane { get; set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Фамилия
@@ -61,7 +61,7 @@ namespace DeamonSharps.Shop.Simple.Models
         /// <summary>
         /// Полное имя
         /// </summary>
-        public string FullName => string.Join(" ", FirstNane, SecondName);
+        public string FullName => string.Join(" ", FirstName, SecondName);
 
         /// <summary>
         /// Почта
@@ -73,7 +73,7 @@ namespace DeamonSharps.Shop.Simple.Models
             return new Customer
             {
                 Id = 2,
-                FirstNane = "Денис",
+                FirstName = "Денис",
                 SecondName = "Смирнов",
                 Email = "badss@pochta.com"
             };

@@ -65,7 +65,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         public async Task<IActionResult> Orders(int page)
         {
             page = page == 0 ? 1 : page;
-            var pageCount =  await _orderServiceController.GetPageCount();
+            var pageCount = await _orderServiceController.GetPageCount();
             var orders = await _orderServiceController.GetOrdersByPage(page);
 
             var pageModel = new OrderPageViewModel
@@ -77,9 +77,15 @@ namespace DeamonSharps.Shop.Simple.Controllers
                 {
                     Id = order.Id,
                     CreationDate = order.Creation_Date,
+                    Status = order.Status.Name,
+                    Customer = new Customer
+                    {
+                        FirstName = order.User.First_Name,
+                        SecondName = order.User.Second_Name
+                    },
                     Products = order.Order_Composition
                     .Where(oc => oc.Order_Id == order.Id)
-                    .Select(oc => 
+                    .Select(oc =>
                     new CartProduct
                     {
                         Count = oc.ProductCount,
@@ -90,8 +96,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
                             ProductId = oc.Product.Id
                         }
                     }).ToList(),
-                PageCount = pageCount,
-                CurrentPage = page
+                    PageCount = pageCount,
+                    CurrentPage = page
                 }).ToList()
             };
 

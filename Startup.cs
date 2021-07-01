@@ -22,12 +22,14 @@ namespace DeamonSharps.Shop.Simple
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<ProductContext>(
-                options =>
+
+            services.AddDbContext<ProductContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<OrderContext>(
-                options =>
+            services.AddDbContext<OrderContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<UserContext>(options => 
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddTransient<ProductServiceController>();
             services.AddTransient<CategoryServiceController>();
             services.AddTransient<OrderServiceController>();
