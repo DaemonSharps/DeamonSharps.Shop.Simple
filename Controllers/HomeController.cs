@@ -15,17 +15,18 @@ namespace DeamonSharps.Shop.Simple.Controllers
     {
         private readonly ProductServiceController _productServiceController;
         private readonly CategoryServiceController _categoryServiceController;
+        private readonly OrderServiceController _orderServiceController;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger,
             ProductServiceController productServiceController,
-            CategoryServiceController categoryServiceController)
+            CategoryServiceController categoryServiceController,
+            OrderServiceController orderServiceController)
         {
             _logger = logger;
             _productServiceController = productServiceController;
-
             _categoryServiceController = categoryServiceController;
-
+            _orderServiceController = orderServiceController;
         }
         /// <summary>
         /// Начальная страница с категориями продуктов
@@ -55,8 +56,49 @@ namespace DeamonSharps.Shop.Simple.Controllers
 
             return View(products);
         }
+
         /// <summary>
-        /// Страница для просмотра и управления содержимым страницы
+        /// Страница для вывода заказов
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> Orders(int page)
+        {
+            page = page == 0 ? 1 : page;
+            var pageCount =  await _orderServiceController.GetPageCount();
+            var orders = await _orderServiceController.GetOrdersByPage(page);
+
+            var pageModel = new OrderPageViewModel
+            {
+                PageCount = pageCount,
+                CurrentPage = page,
+                Orders = orders.Select(order =>
+                new OrderViewModel
+                {
+                    Id = order.Id,
+                    CreationDate = order.Creation_Date,
+                    Products = order.Order_Composition
+                    .Where(oc => oc.Order_Id == order.Id)
+                    .Select(oc => 
+                    new CartProduct
+                    {
+                        Count = oc.ProductCount,
+                        Product = new ProductViewModel
+                        {
+                            Name = oc.Product.Product_Name,
+                            Price = oc.Product.Product_Price,
+                            ProductId = oc.Product.Id
+                        }
+                    }).ToList(),
+                PageCount = pageCount,
+                CurrentPage = page
+                }).ToList()
+            };
+
+            return View(pageModel);
+        }
+        /// <summary>
+        /// Страница для просмотра и управления содержимым корзины
         /// </summary>
         public IActionResult Cart()
         {

@@ -1,0 +1,49 @@
+﻿@{ 
+    ViewData["Title"] = "Заказы";
+}
+@model OrderPageViewModel;
+<div class="container">
+    <div class="table">
+        @if (Model.Orders.Count != 0)
+        {
+            <table>
+                <thead>
+                    <tr>
+                        <th>Номер заказа</th>
+                        <th>Статус заказа</th>
+                        <th>Дата создания</th>
+                        <th>Покупатель</th>
+                        <th>Список покупок</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Orders.Count; i++)
+                    {
+                        <tr>
+                            <th>@Model.Orders[i].Id</th>
+                            <th>@Model.Orders[i].Status</th>
+                            <th>@Model.Orders[i].CreationDate.ToString()</th>
+                            <th>@Model.Orders[i].Customer.FullName</th>
+                            <th>@string.Join(" ;", Model.Orders[i].Products.Select(p => $"{p.Product.Name} {p.Count}"))</th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Вы еще не сделали ни одного заказа.</p>
+        }
+
+
+    </div>
+    @if (Model.Orders.Count != 0)
+    {
+        await Html.RenderPartialAsync("OrdersPageSelector",
+            new ViewDataDictionary(ViewData)
+            {
+                {"PageCount" ,Model.PageCount },
+                {"CurrentPage" ,Model.CurrentPage}
+            });
+    }
+</div>
