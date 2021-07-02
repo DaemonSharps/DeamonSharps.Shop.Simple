@@ -1,5 +1,5 @@
 using DeamonSharps.Shop.Simple.DataBase.Context;
-using DeamonSharps.Shop.Simple.Services;
+using DeamonSharps.Shop.Simple.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;

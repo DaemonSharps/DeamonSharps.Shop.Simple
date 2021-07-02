@@ -1,5 +1,5 @@
 ﻿using DeamonSharps.Shop.Simple.Models;
-using DeamonSharps.Shop.Simple.Services;
+using DeamonSharps.Shop.Simple.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

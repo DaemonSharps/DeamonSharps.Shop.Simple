@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace DeamonSharps.Shop.Simple.Services
+namespace DeamonSharps.Shop.Simple.Api.Services
 {
     [ApiController]
     [Route("api/[controller]")]
