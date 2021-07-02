@@ -1,22 +1,33 @@
-﻿using DeamonSharps.Shop.Simple.Models;
+﻿using DeamonSharps.Shop.Simple.Entities;
+using DeamonSharps.Shop.Simple.Extentions;
+using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace DeamonSharps.Shop.Simple.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ProductServiceController _productServiceController;
         private readonly CategoryServiceController _categoryServiceController;
+        private readonly OrderServiceController _orderServiceController;
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger,
-            CategoryServiceController categoryServiceController)
+            ProductServiceController productServiceController,
+            CategoryServiceController categoryServiceController,
+            OrderServiceController orderServiceController)
         {
             _logger = logger;
+            _productServiceController = productServiceController;
             _categoryServiceController = categoryServiceController;
+            _orderServiceController = orderServiceController;
         }
         /// <summary>
         /// Начальная страница с категориями продуктов

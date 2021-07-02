@@ -3,6 +3,7 @@ using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace DeamonSharps.Shop.Simple.Services
 
                 return BadRequest(e.InnerException.Message);
             }
-
+            
         }
 
         /// <summary>

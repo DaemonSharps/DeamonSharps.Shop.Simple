@@ -22,9 +22,8 @@ namespace DeamonSharps.Shop.Simple
 
         public IConfiguration Configuration { get; }
 
-        public string XMLPath
-        {
-            get
+        public string XMLPath { 
+            get 
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
