@@ -27,16 +27,16 @@ namespace DeamonSharps.Shop.Simple.Services
         [HttpGet("GetCategories")]
         [SwaggerOperation("GetCategories")]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<CategoryViewModel>), Description = "Список категорий")]
-        public async Task<List<CategoryViewModel>> GetCategoriesFromDBAsync()
+        public async Task<IActionResult> GetCategoriesFromDBAsync()
         {
-                var categories = await _shopDBContext?.Categories?.Select(
-                cat => new CategoryViewModel()
-                {
-                    Id = cat.Id,
-                    Name = cat.Category_Name
-                }).ToListAsync();
+            var categories = await _shopDBContext?.Categories?.Select(
+            cat => new CategoryViewModel()
+            {
+                Id = cat.Id,
+                Name = cat.Category_Name
+            }).ToListAsync();
 
-                return categories;
+            return Ok(categories);
         }
     }
 }
