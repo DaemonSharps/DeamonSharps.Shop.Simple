@@ -1,9 +1,7 @@
-﻿using DeamonSharps.Shop.Simple.Models;
-using DeamonSharps.Shop.Simple.Api.Services;
+﻿using DeamonSharps.Shop.Simple.Api.Services;
+using DeamonSharps.Shop.Simple.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeamonSharps.Shop.Simple.Controllers
@@ -30,7 +28,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
             }
             else
             {
-                products = await _productServiceController.GetProductsFromDBByCategoryAsync(categoryId);
+                //products = await _productServiceController.GetProductsFromDBByCategoryAsync(categoryId);
                 ViewData["Category"] = categoryName;
             }
 

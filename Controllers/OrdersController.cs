@@ -1,8 +1,6 @@
-﻿using DeamonSharps.Shop.Simple.Models;
-using DeamonSharps.Shop.Simple.Api.Services;
+﻿using DeamonSharps.Shop.Simple.Api.Services;
+using DeamonSharps.Shop.Simple.Models;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,8 +37,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
                     Status = order.Status.Name,
                     Customer = new Customer
                     {
-                        FirstName = order.User.First_Name,
-                        SecondName = order.User.Second_Name
+                        FirstName = order.User.FirstName,
+                        SecondName = order.User.SecondName
                     },
                     Products = order.Order_Composition
                     .Where(oc => oc.Order_Id == order.Id)
@@ -50,8 +48,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
                         Count = oc.ProductCount,
                         Product = new ProductViewModel
                         {
-                            Name = oc.Product.Product_Name,
-                            Price = oc.Product.Product_Price,
+                            Name = oc.Product.Name,
+                            Price = oc.Product.Price,
                             ProductId = oc.Product.Id
                         }
                     }).ToList(),

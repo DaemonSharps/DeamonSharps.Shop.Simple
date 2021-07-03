@@ -1,5 +1,7 @@
-using DeamonSharps.Shop.Simple.DataBase.Context;
 using DeamonSharps.Shop.Simple.Api.Services;
+using DeamonSharps.Shop.Simple.DataBase.Context;
+using DeamonSharps.Shop.Simple.Services;
+using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -22,8 +24,9 @@ namespace DeamonSharps.Shop.Simple
 
         public IConfiguration Configuration { get; }
 
-        public string XMLPath { 
-            get 
+        public string XMLPath
+        {
+            get
             {
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -42,6 +45,8 @@ namespace DeamonSharps.Shop.Simple
             services.AddTransient<ProductServiceController>();
             services.AddTransient<CategoryServiceController>();
             services.AddTransient<OrderServiceController>();
+            services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddDistributedMemoryCache();
             services.AddSession();
 

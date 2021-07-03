@@ -1,7 +1,7 @@
-﻿using DeamonSharps.Shop.Simple.Entities;
+﻿using DeamonSharps.Shop.Simple.Api.Services;
+using DeamonSharps.Shop.Simple.Entities;
 using DeamonSharps.Shop.Simple.Extentions;
 using DeamonSharps.Shop.Simple.Models;
-using DeamonSharps.Shop.Simple.Api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

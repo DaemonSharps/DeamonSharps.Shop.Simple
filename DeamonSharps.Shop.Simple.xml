@@ -4,52 +4,52 @@
         <name>DeamonSharps.Shop.Simple</name>
     </assembly>
     <members>
-        <member name="M:DeamonSharps.Shop.Simple.Services.CategoryServiceController.GetCategoriesFromDBAsync">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.CategoryServiceController.GetCategoriesFromDBAsync">
             <summary>
             Получает категории из базы данных
             </summary>
             <returns>Список категорий</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.OrderServiceController.CreateOrderInDBAsync(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Models.CartProduct})">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.CreateOrderInDBAsync(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Models.CartProduct})">
             <summary>
             Создание заказа
             </summary>
             <param name="products">Список продуктов в корзине</param>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.OrderServiceController.GetOrdersAsync">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.GetOrdersAsync">
             <summary>
-            Получение всех заказов из БД
+            Получение всех заказов
             </summary>
             <returns>Список заказов</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.OrderServiceController.GetOrdersByPageAsync(System.Int32)">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.GetOrdersByPageAsync(System.Int32)">
             <summary>
             Получить заказы по номеру страницы
             </summary>
             <param name="page">Номер страницы</param>
             <returns>Список заказов</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.OrderServiceController.GetPageCountAsync">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.GetPageCountAsync">
             <summary>
             Получить количество страниц для заказов
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.ProductServiceController.GetProductsFromDBAsync">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProductsFromDBAsync">
             <summary>
             Получить список всех продуктов
             </summary>
             <returns>Список продуктов</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.ProductServiceController.GetProductsFromDBByCategoryAsync(System.Int32)">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProductsFromDBByCategoryAsync(System.Int32)">
             <summary>
             Получить список продуктов по категории
             </summary>
             <param name="categoryId">Номер категории</param>
             <returns>Список продуктов</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.#ctor(DeamonSharps.Shop.Simple.Services.ProductServiceController,DeamonSharps.Shop.Simple.Services.OrderServiceController)">
+        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.#ctor(DeamonSharps.Shop.Simple.Api.Services.ProductServiceController,DeamonSharps.Shop.Simple.Api.Services.OrderServiceController)">
             <summary>
             Контроллер для управления корзиной с заказом
             </summary>
@@ -101,122 +101,187 @@
             Страница с продуктами в категории или всеми товарами
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Category.Id">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Category_DB.Id">
             <summary>
             Номер категории
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Category.Category_Name">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Category_DB.Name">
             <summary>
             Название категории
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order.Id">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.OrderComposition_DB.Order_Id">
             <summary>
             Номер заказа в БД
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order.User_Id">
-            <summary>
-            Номер пользователя из БД
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order.User">
-            <summary>
-            Поле для реализации связи one-to-many с пользователем
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order.Creation_Date">
-            <summary>
-            Дата создания заказа
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order.Status_Id">
-            <summary>
-            Номер из таблицы статусов
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order.Status">
-            <summary>
-            Поле для реализации one-to-many со статусом
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order.Order_Composition">
-            <summary>
-            Поле для реализации связи many-to-many
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.OrderComposition.Order_Id">
-            <summary>
-            Номер заказа в БД
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.OrderComposition.Product_Id">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.OrderComposition_DB.Product_Id">
             <summary>
             Номер продукта в БД
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.OrderStatus.Id">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.OrderStatus_DB.Id">
             <summary>
             Номер статуса
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.OrderStatus.Name">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.OrderStatus_DB.Name">
             <summary>
             Название статуса
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Role.Id">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order_DB.Id">
+            <summary>
+            Номер заказа в БД
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order_DB.User_Id">
+            <summary>
+            Номер пользователя из БД
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order_DB.User">
+            <summary>
+            Поле для реализации связи one-to-many с пользователем
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order_DB.Creation_Date">
+            <summary>
+            Дата создания заказа
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order_DB.Status_Id">
+            <summary>
+            Номер из таблицы статусов
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order_DB.Status">
+            <summary>
+            Поле для реализации one-to-many со статусом
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Order_DB.Order_Composition">
+            <summary>
+            Поле для реализации связи many-to-many
+            </summary>
+        </member>
+        <member name="T:DeamonSharps.Shop.Simple.DataBase.Entities.ProductCategory_DB">
+            <summary>
+            Many-to-many продукты и категории
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.ProductCategory_DB.Product_Id">
+            <summary>
+            Номер продукта в БД
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.ProductCategory_DB.Product">
+            <summary>
+            Поле дле реализации саязи many-to-many
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.ProductCategory_DB.Category_Id">
+            <summary>
+            Номер категории в БД
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.ProductCategory_DB.Category">
+            <summary>
+            Поле дле реализации саязи many-to-many
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Product_DB.Id">
+            <summary>
+            Номер продукта в БД
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Product_DB.Name">
+            <summary>
+            Название продукта
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Product_DB.Price">
+            <summary>
+            Цена продукта
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Product_DB.About">
+            <summary>
+            Описание продукта
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Product_DB.ProductCategory">
+            <summary>
+            Связ many-to-many с категориями
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Product_DB.Order_Composition">
+            <summary>
+            Связ many-to-many с продуктами в заказе
+            </summary>
+        </member>
+        <member name="T:DeamonSharps.Shop.Simple.DataBase.Entities.Role_DB">
+            <summary>
+            Роль пользователя
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Role_DB.Id">
             <summary>
             Номер роли
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Role.Role_Name">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Role_DB.Name">
             <summary>
             Название роли
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Role.Users">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.Role_DB.Users">
             <summary>
             Поле для реализации one-to-many с пользователями
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User.Id">
+        <member name="T:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB">
+            <summary>
+            Пользователь
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB.Id">
             <summary>
             Номер пользователя
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User.First_Name">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB.FirstName">
             <summary>
             Имя
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User.Second_Name">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB.SecondName">
             <summary>
             Фамилия
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User.Role_Id">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB.Role_Id">
             <summary>
             Номер роли
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User.Role">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB.Role">
             <summary>
             Поле для реализации one-to-many с ролью
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User.Email_Adress">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB.Email_Adress">
             <summary>
             Почта
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User.Password">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB.Password">
             <summary>
             Пароль
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User.Orders">
+        <member name="P:DeamonSharps.Shop.Simple.DataBase.Entities.User_DB.Orders">
             <summary>
             Поле для реализации one-to-many с заказом
             </summary>
@@ -389,6 +454,51 @@
             <summary>
             Номер продукта
             </summary>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.CreateOrderInDBAsync(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Models.CartProduct})">
+            <summary>
+            Создание заказа в базе данных
+            </summary>
+            <param name="products">Список продуктов в корзине</param>
+            <returns></returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.GetOrdersAsync">
+            <summary>
+            Получение всех заказов из БД
+            </summary>
+            <returns>Список заказов</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.GetOrdersByPageAsync(System.Int32)">
+            <summary>
+            Получить заказы по номеру страницы
+            </summary>
+            <param name="page">Номер страницы</param>
+            <returns>Список заказов</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.GetPageCountAsync">
+            <summary>
+            Получить количество страниц для заказов
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetProductsFromDBAsync">
+            <summary>
+            Получить список всех продуктов
+            </summary>
+            <returns>Список продуктов</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetProductsFromDBByCategoryAsync(System.Int32)">
+            <summary>
+            Получить список продуктов по категории
+            </summary>
+            <param name="categoryId">Номер категории</param>
+            <returns>Список продуктов</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetCategoriesFromDBAsync">
+            <summary>
+            Получает категории из базы данных
+            </summary>
+            <returns>Список категорий</returns>
         </member>
     </members>
 </doc>

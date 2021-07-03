@@ -1,5 +1,7 @@
 ﻿using DeamonSharps.Shop.Simple.DataBase.Context;
+using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Models;
+using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
@@ -16,17 +18,21 @@ namespace DeamonSharps.Shop.Simple.Api.Services
     public class ProductServiceController : Controller
     {
         private readonly ShopDBContext _shopDBContext;
-        public ProductServiceController(ShopDBContext shopDBContext)
+        private readonly IProductService _productService;
+        public ProductServiceController(
+            ShopDBContext shopDBContext,
+            IProductService productService)
         {
             _shopDBContext = shopDBContext;
+            _productService = productService;
         }
 
         /// <summary>
         /// Получить список всех продуктов
         /// </summary>
         /// <returns>Список продуктов</returns>
-        [HttpGet("GetProducts")]
-        [SwaggerOperation("GetProducts")]
+        [HttpGet(nameof(GetProductsFromDBAsync))]
+        [SwaggerOperation(nameof(GetProductsFromDBAsync))]
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<ProductViewModel>))]
         public async Task<List<ProductViewModel>> GetProductsFromDBAsync()
         {
@@ -34,8 +40,8 @@ namespace DeamonSharps.Shop.Simple.Api.Services
               ?.Select(s =>
               new ProductViewModel
               {
-                  Name = s.Product_Name,
-                  Price = s.Product_Price,
+                  Name = s.Name,
+                  Price = s.Price,
                   ProductId = s.Id
               })
               ?.ToListAsync();
@@ -50,28 +56,10 @@ namespace DeamonSharps.Shop.Simple.Api.Services
         /// <returns>Список продуктов</returns>
         [HttpGet("GetProductsByCategory")]
         [SwaggerOperation("GetProductsByCategory")]
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<ProductViewModel>))]
-        public async Task<List<ProductViewModel>> GetProductsFromDBByCategoryAsync(int categoryId)
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(IEnumerable<Product_DB>))]
+        public async Task<IEnumerable<Product_DB>> GetProductsFromDBByCategoryAsync(int categoryId)
         {
-            var products = new List<ProductViewModel>();
-            var categories = await _shopDBContext.Categories.Include(cat => cat.ProductCategory).ThenInclude(p => p.Product).ToListAsync();
-            foreach (var cat in categories)
-            {
-                if (cat.Id == categoryId)
-                {
-                    for (int i = 0; i < cat.ProductCategory.Count; i++)
-                    {
-                        var prod = cat.ProductCategory[i].Product;
-                        products.Add(new ProductViewModel()
-                        {
-                            Price = prod.Product_Price,
-                            ProductId = prod.Id,
-                            Name = prod.Product_Name
-                        });
-                    }
-                    break;
-                }
-            }
+           var products = await _productService.GetProductsFromDBByCategoryAsync(categoryId);
             return products;
         }
     }
