@@ -51,7 +51,7 @@ namespace DeamonSharps.Shop.Simple.Api.Services
                     order.Order_Composition.Add(new OrderComposition_DB
                     {
                         Order_Id = order.Id,
-                        Product_Id = products.ElementAt(i).Product.ProductId,
+                        Product_Id = products.ElementAt(i).Product.Id,
                         ProductCount = products.ElementAt(i).Count
                     });
                 }

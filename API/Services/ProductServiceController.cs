@@ -59,8 +59,27 @@ namespace DeamonSharps.Shop.Simple.Api.Services
         [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(IEnumerable<Product_DB>))]
         public async Task<IEnumerable<Product_DB>> GetProductsFromDBByCategoryAsync(int categoryId)
         {
-           var products = await _productService.GetProductsFromDBByCategoryAsync(categoryId);
+            var products = await _productService.GetProductsFromDBByCategoryAsync(categoryId);
             return products;
+        }
+
+        /// <summary>
+        /// Получает категории из базы данных
+        /// </summary>
+        /// <returns>Список категорий</returns>
+        [HttpGet("GetCategories")]
+        [SwaggerOperation("GetCategories")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<CategoryViewModel>), Description = "Список категорий")]
+        public async Task<List<CategoryViewModel>> GetCategoriesFromDBAsync()
+        {
+            var categories = await _shopDBContext?.Categories?.Select(
+            cat => new CategoryViewModel()
+            {
+                Id = cat.Id,
+                Name = cat.Name
+            }).ToListAsync();
+
+            return categories;
         }
     }
 }

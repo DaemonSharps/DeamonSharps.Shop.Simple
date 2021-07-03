@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace DeamonSharps.Shop.Simple.Models
@@ -24,7 +25,7 @@ namespace DeamonSharps.Shop.Simple.Models
         /// <summary>
         /// Продукт в корзине
         /// </summary>
-        public ProductViewModel Product { get; set; }
+        public Product_DB Product { get; set; }
         /// <summary>
         /// Количество единиц продуктв
         /// </summary>

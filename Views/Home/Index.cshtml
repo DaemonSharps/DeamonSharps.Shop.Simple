@@ -1,14 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Домашняя страница";
+﻿@model CategoryPageViewModel;
+@{ 
+    ViewData["Title"] = Model.Title;
 }
-@model List<CategoryViewModel>;
 <div class="container">
     <div class="text-center">
         <h1 class="display-4">Добро пожаловать в магазин мерча МГТУ</h1>
         <p>Выбирайте категорию и товары</p>
     </div>
     <div class="row">
-            @foreach (var category in Model)
+            @foreach (var category in Model.Categories)
             {<div class="col-md-4">
                     
                         @using (Html.BeginForm("Index","Shop",FormMethod.Get)) 

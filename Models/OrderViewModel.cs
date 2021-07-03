@@ -26,7 +26,7 @@ namespace DeamonSharps.Shop.Simple.Models
         /// <summary>
         /// Список продуктов в заказе
         /// </summary>
-        public List<CartProduct> Products { get; set; }
+        public List<CartItemViewModel> Products { get; set; }
 
         /// <summary>
         /// Количество страниц

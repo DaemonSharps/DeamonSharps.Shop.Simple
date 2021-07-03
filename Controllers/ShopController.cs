@@ -1,18 +1,20 @@
-﻿using DeamonSharps.Shop.Simple.Api.Services;
+﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Models;
+using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DeamonSharps.Shop.Simple.Controllers
 {
     public class ShopController : Controller
     {
-        private readonly ProductServiceController _productServiceController;
+        private readonly IProductService _productService;
 
-        public ShopController(ProductServiceController productServiceController)
+        public ShopController(IProductService productService)
         {
-            _productServiceController = productServiceController;
+            _productService = productService;
         }
         /// <summary>
         /// Страница с продуктами в категории или всеми товарами
@@ -20,19 +22,32 @@ namespace DeamonSharps.Shop.Simple.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int categoryId, string categoryName)
         {
-            var products = new List<ProductViewModel>();
+            var productsDB = new List<Product_DB>();
             if (categoryId == 0)
             {
-                products = await _productServiceController.GetProductsFromDBAsync();
-                ViewData["Category"] = "Все товары";
+                productsDB = await _productService.GetProductsFromDBAsync();
             }
             else
             {
-                //products = await _productServiceController.GetProductsFromDBByCategoryAsync(categoryId);
-                ViewData["Category"] = categoryName;
-            }
+                productsDB = await _productService.GetProductsFromDBByCategoryAsync(categoryId);
 
-            return View(products);
+            }
+            var products = productsDB
+                .Select(p =>
+                new Product
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Description = p.About
+                }).ToList();
+
+            var model = new ShopPageViewModel
+            {
+                CategoryName = categoryName ?? "Все товары",
+                Products = products
+            };
+            return View(model);
         }
     }
 }

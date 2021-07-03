@@ -1,10 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Корзина";
+﻿@model CartPageViewModel;
+@{
+    ViewData["Title"] = Model.Title;
 }
-@model CartViewModel;
 <div class="container">
     <div class="table">
-        @if (@Model != null && Model.Products.Count != 0)
+        @if (@Model.Products != null && Model.Products.Count != 0)
         {
             <table class="table table-striped table-sm">
                 <thead>
@@ -14,31 +14,31 @@
                         <th>Количество</th>
                     </tr>
                 </thead>
-                    <tbody>
-                        @foreach (var prod in Model.Products)
-                        {
-                            <tr>
-                                <th>@prod.Product.Name</th>
-                                <th>@prod.Product.Price</th>
-                                <th>@prod.Count</th>
-                                <th>
-                                    @using (Html.BeginForm("Delete", "Cart"))
-                                    {
-                                        @Html.Hidden("Name", prod.Product.Name);
-                                        @Html.Hidden("returnUrl", Context.Request.Path);
-                                        <input type="submit" class="btn btn-info" value="Удалить" />
-                                    }
-
-                                </th>
-                            </tr>
-                        }
-                    </tbody>
-                    <tfoot>
+                <tbody>
+                    @foreach (var prod in Model.Products)
+                    {
                         <tr>
-                            <th class="text-right">Цена</th>
-                            <th>@Model.TotalPrice</th>
+                            <th>@prod.Product.Name</th>
+                            <th>@prod.Product.Price</th>
+                            <th>@prod.Count</th>
+                            <th>
+                                @using (Html.BeginForm("Delete", "Cart"))
+                                {
+                                    @Html.Hidden("id", prod.Product.Id);
+                                    @Html.Hidden("returnUrl", Context.Request.Path);
+                                    <input type="submit" class="btn btn-info" value="Удалить" />
+                                }
+
+                            </th>
                         </tr>
-                    </tfoot>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="text-right">Цена</th>
+                        <th>@Model.TotalPrice</th>
+                    </tr>
+                </tfoot>
             </table>
             <div class="row justify-content-around">
                 @using (Html.BeginForm("CreateOrder", "Cart", FormMethod.Post))
@@ -50,7 +50,7 @@
                         <input type="hidden" name="products[@i].Count" value="@Model.Products[i].Count" />
                         <input type="hidden" name="products[@i].Product.Name" value="@Model.Products[i].Product.Name" />
                         <input type="hidden" name="products[@i].Product.Price" value="@Model.Products[i].Product.Price" />
-                        <input type="hidden" name="products[@i].Product.ProductId" value="@Model.Products[i].Product.ProductId" />
+                        <input type="hidden" name="products[@i].Product.Id" value="@Model.Products[i].Product.Id" />
                     }
 
                     <input type="submit" class="btn btn-outline-success" value="Подтвердить" />
@@ -61,12 +61,12 @@
                     <input type="submit" class="btn btn-outline-info" value="Очистить корзину" />
                 }
             </div>
-            
+
         }
         else
         {
-                <p>Вы еще не выбрали ни одного продукта.</p>
+            <p>Вы еще не выбрали ни одного продукта.</p>
         }
     </div>
-   
+
 </div>

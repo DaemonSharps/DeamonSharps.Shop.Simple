@@ -2,6 +2,9 @@
 
 namespace DeamonSharps.Shop.Simple.Models
 {
+    /// <summary>
+    /// Модель страницы с заказами
+    /// </summary>
     public class OrderPageViewModel
     {
         /// <summary>

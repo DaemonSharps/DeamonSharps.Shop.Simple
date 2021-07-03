@@ -1,5 +1,6 @@
-﻿using DeamonSharps.Shop.Simple.Api.Services;
+﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Models;
+using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,11 +9,11 @@ namespace DeamonSharps.Shop.Simple.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly OrderServiceController _orderServiceController;
+        private readonly IOrderService _orderService;
 
-        public OrdersController(OrderServiceController orderServiceController)
+        public OrdersController(IOrderService orderService)
         {
-            _orderServiceController = orderServiceController;
+            _orderService = orderService;
         }
         /// <summary>
         /// Страница для вывода заказов
@@ -22,8 +23,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
         public async Task<IActionResult> Index(int page)
         {
             page = page == 0 ? 1 : page;
-            var pageCount = await _orderServiceController.GetPageCountAsync();
-            var orders = await _orderServiceController.GetOrdersByPageAsync(page);
+            var pageCount = await _orderService.GetPageCountAsync();
+            var orders = await _orderService.GetOrdersByPageAsync(page);
 
             var pageModel = new OrderPageViewModel
             {
@@ -43,14 +44,14 @@ namespace DeamonSharps.Shop.Simple.Controllers
                     Products = order.Order_Composition
                     .Where(oc => oc.Order_Id == order.Id)
                     .Select(oc =>
-                    new CartProduct
+                    new CartItemViewModel
                     {
                         Count = oc.ProductCount,
-                        Product = new ProductViewModel
+                        Product = new Product
                         {
                             Name = oc.Product.Name,
                             Price = oc.Product.Price,
-                            ProductId = oc.Product.Id
+                            Id = oc.Product.Id
                         }
                     }).ToList(),
                     PageCount = pageCount,
