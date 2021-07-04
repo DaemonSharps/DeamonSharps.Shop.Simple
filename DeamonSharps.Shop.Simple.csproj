@@ -20,8 +20,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="API\Schemas\" />
-  </ItemGroup>
-
 </Project>

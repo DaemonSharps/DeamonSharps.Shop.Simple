@@ -48,9 +48,7 @@
                     {
                         <input type="hidden" name="products.Index" value="@i" />
                         <input type="hidden" name="products[@i].Count" value="@Model.Products[i].Count" />
-                        <input type="hidden" name="products[@i].Product.Name" value="@Model.Products[i].Product.Name" />
-                        <input type="hidden" name="products[@i].Product.Price" value="@Model.Products[i].Product.Price" />
-                        <input type="hidden" name="products[@i].Product.Id" value="@Model.Products[i].Product.Id" />
+                        <input type="hidden" name="products[@i].ProductId" value="@Model.Products[i].Product.Id" />
                     }
 
                     <input type="submit" class="btn btn-outline-success" value="Подтвердить" />

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace DeamonSharps.Shop.Simple.Models
+namespace DeamonSharps.Shop.Simple.Api.Schemas
 {
-    public struct ProductViewModel
+    [Serializable]
+    public class Product
     {
         public int Id { get; set; }
 
@@ -14,5 +12,8 @@ namespace DeamonSharps.Shop.Simple.Models
         public decimal Price { get; set; }
 
         public string Description { get; set; }
+
+        public Category Category { get; set; }
+
     }
 }

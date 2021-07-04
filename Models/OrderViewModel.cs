@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace DeamonSharps.Shop.Simple.Models
 {
-    [Serializable]
     public class OrderViewModel
     {
         /// <summary>
@@ -21,7 +20,7 @@ namespace DeamonSharps.Shop.Simple.Models
         /// </summary>
         public string Status { get; set; }
 
-        public Customer Customer { get; set; } = Customer.GetDefaultSet();
+        public CustomerViewModel Customer { get; set; } = CustomerViewModel.GetDefaultSet();
 
         /// <summary>
         /// Список продуктов в заказе
@@ -38,45 +37,5 @@ namespace DeamonSharps.Shop.Simple.Models
         /// Текущяя страница
         /// </summary>
         public int CurrentPage { get; set; }
-    }
-
-    [Serializable]
-    public class Customer
-    {
-        /// <summary>
-        /// Номер пользователя
-        /// </summary>
-        public int Id { get; set; }
-
-        /// <summary>
-        /// Имя
-        /// </summary>
-        public string FirstName { get; set; }
-
-        /// <summary>
-        /// Фамилия
-        /// </summary>
-        public string SecondName { get; set; }
-
-        /// <summary>
-        /// Полное имя
-        /// </summary>
-        public string FullName => string.Join(" ", FirstName, SecondName);
-
-        /// <summary>
-        /// Почта
-        /// </summary>
-        public string Email { get; set; }
-
-        public static Customer GetDefaultSet()
-        {
-            return new Customer
-            {
-                Id = 2,
-                FirstName = "Денис",
-                SecondName = "Смирнов",
-                Email = "badss@pochta.com"
-            };
-        }
     }
 }

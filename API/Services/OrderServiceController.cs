@@ -1,11 +1,15 @@
-﻿using DeamonSharps.Shop.Simple.DataBase.Context;
+﻿using DeamonSharps.Shop.Simple.Api.Schemas;
+using DeamonSharps.Shop.Simple.DataBase.Context;
 using DeamonSharps.Shop.Simple.DataBase.Entities;
+using DeamonSharps.Shop.Simple.Entities;
 using DeamonSharps.Shop.Simple.Models;
+using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -17,13 +21,11 @@ namespace DeamonSharps.Shop.Simple.Api.Services
     [Produces("application/json")]
     public class OrderServiceController : ControllerBase
     {
-        private readonly ShopDBContext _shopDBContext;
+        private readonly IOrderService _orderService;
 
-        private const int PerPage = 10;
-
-        public OrderServiceController(ShopDBContext shopDBContext)
+        public OrderServiceController(IOrderService orderService)
         {
-            _shopDBContext = shopDBContext;
+            _orderService = orderService;
         }
 
         /// <summary>
@@ -31,34 +33,16 @@ namespace DeamonSharps.Shop.Simple.Api.Services
         /// </summary>
         /// <param name="products">Список продуктов в корзине</param>
         /// <returns></returns>
-        [HttpPost("CreateOrder")]
-        [SwaggerOperation("CreateOrder")]
-        [SwaggerResponse((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreateOrderInDBAsync(IEnumerable<CartProduct> products)
+        [HttpPost(nameof(CreateOrder))]
+        [SwaggerOperation(nameof(CreateOrder))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(Order))]
+        public async Task<IActionResult> CreateOrder([Required][FromBody] IEnumerable<CartItem> products)
         {
             try
             {
-                var order = new Order_DB
-                {
-                    User_Id = 2,
-                    Creation_Date = DateTime.Now,
-                    Status_Id = 1
-                };
-                _shopDBContext?.Shop_Orders.Add(order);
-
-                for (int i = 0; i < products.Count(); i++)
-                {
-                    order.Order_Composition.Add(new OrderComposition_DB
-                    {
-                        Order_Id = order.Id,
-                        Product_Id = products.ElementAt(i).Product.Id,
-                        ProductCount = products.ElementAt(i).Count
-                    });
-                }
-
-                await _shopDBContext.SaveChangesAsync();
-
-                return Ok($"Заказ создан успешно, номер: {order.Id}");
+                var orderDB = await _orderService.CreateOrderInDBAsync(products);
+                var order = ConvertOrdersDBToOrders(orderDB);
+                return Ok(order.FirstOrDefault());
             }
             catch (DbUpdateException e)
             {
@@ -69,76 +53,81 @@ namespace DeamonSharps.Shop.Simple.Api.Services
         }
 
         /// <summary>
-        /// Получение всех заказов
-        /// </summary>
-        /// <returns>Список заказов</returns>
-        [HttpGet("GetOrders")]
-        [SwaggerOperation("GetOrders")]
-        [SwaggerResponse((int)HttpStatusCode.OK)]
-        public async Task<List<Order_DB>> GetOrdersAsync()
-        {
-            var orders = await _shopDBContext?.Shop_Orders
-                .Include(o => o.User)
-                .Include(o => o.Status)
-                .Include(o => o.Order_Composition)
-                .ThenInclude(oc => oc.Product)
-                .ToListAsync();
-            return orders ?? new List<Order_DB>();
-        }
-
-        /// <summary>
         /// Получить заказы по номеру страницы
         /// </summary>
         /// <param name="page">Номер страницы</param>
         /// <returns>Список заказов</returns>
-        [HttpGet("GetOrdersByPage")]
-        [SwaggerOperation]
-        [SwaggerResponse((int)HttpStatusCode.OK)]
-        public async Task<List<Order_DB>> GetOrdersByPageAsync(int page)
+        [HttpGet(nameof(GetOrdersByFilter))]
+        [SwaggerOperation(nameof(GetOrdersByFilter))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<Order>))]
+        public async Task<IActionResult> GetOrdersByFilter(int page)
         {
-            var orders = new List<Order_DB>();
-            var orderFrom = PerPage * (page - 1);
-            var orderTo = (page * PerPage) - 1;
-
-            var ordersDB = await GetOrdersAsync();
-
-            for (int i = orderFrom; i <= orderTo; i++)
+            try
             {
-                if (i <= ordersDB.Count - 1)
-                {
-                    orders.Add(ordersDB.ElementAt(i));
-                }
+                var ordersDB = await _orderService.GetOrdersByPageAsync(page);
+                var orders = ConvertOrdersDBToOrders(ordersDB.ToArray());
+               
+                return Ok(orders);
 
             }
-
-            return orders ?? new List<Order_DB>();
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
         }
 
         /// <summary>
         /// Получить количество страниц для заказов
         /// </summary>
         /// <returns></returns>
-        [HttpGet("GetPageCount")]
-        [SwaggerOperation("GetPageCount")]
-        [SwaggerResponse((int)HttpStatusCode.OK)]
-        public async Task<int> GetPageCountAsync()
+        [HttpGet(nameof(GetPageCount))]
+        [SwaggerOperation(nameof(GetPageCount))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(int))]
+        public async Task<IActionResult> GetPageCount()
         {
-            var orderCount = await Task.Run(() =>
+            try
+            {
+                var pageCount = await _orderService.GetPageCountAsync();
+                return Ok(pageCount);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        private List<Order> ConvertOrdersDBToOrders(params Order_DB[] ordersDB)
+        {
+            var orders = new List<Order>();
+            foreach (var orderDB in ordersDB)
+            {
+                /*var user = new User
                 {
-                    return _shopDBContext.Shop_Orders.Count();
-                });
-
-            var pageCount = 0;
-            if ((orderCount % PerPage) != 0)
-            {
-                pageCount = orderCount / PerPage + 1;
+                    Id = orderDB.User_Id,
+                    FirstName = orderDB.User.FirstName,
+                    SecondName = orderDB.User.SecondName,
+                    Email_Adress = orderDB.User.Email_Adress,
+                    Role = new Role
+                    {
+                        Id = orderDB.User.Role_Id,
+                        Name = orderDB.User.Role.Name
+                    }
+                };*/
+                var order = new Order
+                {
+                    Id = orderDB.Id,
+                    Creation_Date = orderDB.Creation_Date,
+                    Status = orderDB.Status.Name
+                };
+                orders.Add(order);
             }
-            else
-            {
-                pageCount = orderCount / PerPage;
-            }
 
-            return pageCount;
+            return orders;
         }
     }
 }

@@ -40,7 +40,7 @@ namespace DeamonSharps.Shop.Simple
             services.AddControllersWithViews();
 
             services.AddDbContext<ShopDBContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IOrderService, OrderService>();

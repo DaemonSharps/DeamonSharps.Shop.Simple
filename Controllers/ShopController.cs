@@ -34,7 +34,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
             }
             var products = productsDB
                 .Select(p =>
-                new Product
+                new ProductViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,

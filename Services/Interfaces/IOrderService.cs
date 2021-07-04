@@ -1,4 +1,5 @@
 ﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
+using DeamonSharps.Shop.Simple.Entities;
 using DeamonSharps.Shop.Simple.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ namespace DeamonSharps.Shop.Simple.Services.Interfaces
 {
     public interface IOrderService
     {
-        Task<int> CreateOrderInDBAsync(IEnumerable<CartProduct> products);
+        Task<Order_DB> CreateOrderInDBAsync(IEnumerable<CartItem> products);
 
         Task<IEnumerable<Order_DB>> GetOrdersAsync();
 

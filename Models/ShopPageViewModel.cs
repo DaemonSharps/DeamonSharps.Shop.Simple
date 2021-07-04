@@ -3,7 +3,7 @@
 namespace DeamonSharps.Shop.Simple.Models
 {
     /// <summary>
-    /// Моделm страницы с продуктами
+    /// Модель страницы с продуктами
     /// </summary>
     public class ShopPageViewModel
     {
@@ -11,17 +11,6 @@ namespace DeamonSharps.Shop.Simple.Models
 
         public string CategoryName { get; set; }
 
-        public List<Product> Products { get; set; }
-    }
-
-    public struct Product
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public decimal Price { get; set; }
-
-        public string Description { get; set; }
+        public List<ProductViewModel> Products { get; set; }
     }
 }

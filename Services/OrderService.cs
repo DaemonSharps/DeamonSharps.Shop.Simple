@@ -1,5 +1,6 @@
 ﻿using DeamonSharps.Shop.Simple.DataBase.Context;
 using DeamonSharps.Shop.Simple.DataBase.Entities;
+using DeamonSharps.Shop.Simple.Entities;
 using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace DeamonSharps.Shop.Simple.Services
         /// </summary>
         /// <param name="products">Список продуктов в корзине</param>
         /// <returns></returns>
-        public async Task<int> CreateOrderInDBAsync(IEnumerable<CartProduct> products)
+        public async Task<Order_DB> CreateOrderInDBAsync(IEnumerable<CartItem> products)
         {
             var order = new Order_DB
             {
@@ -40,14 +41,15 @@ namespace DeamonSharps.Shop.Simple.Services
                 order.Order_Composition.Add(new OrderComposition_DB
                 {
                     Order_Id = order.Id,
-                    Product_Id = products.ElementAt(i).Product.Id,
+                    Product_Id = products.ElementAt(i).ProductId,
                     ProductCount = products.ElementAt(i).Count
                 });
             }
 
             await _shopDBContext.SaveChangesAsync();
 
-            return order.Id;
+            order.Status = await _shopDBContext.OrderStatus.Where(s => s.Id == order.Status_Id).SingleAsync();
+            return order;
         }
 
         /// <summary>
@@ -72,6 +74,10 @@ namespace DeamonSharps.Shop.Simple.Services
         /// <returns>Список заказов</returns>
         public async Task<IEnumerable<Order_DB>> GetOrdersByPageAsync(int page)
         {
+            if (page == 0)
+            {
+                throw new ArgumentException("Page is can`t be 0");
+            }
             var orders = new List<Order_DB>();
             var orderFrom = PerPage * (page - 1);
             var orderTo = (page * PerPage) - 1;

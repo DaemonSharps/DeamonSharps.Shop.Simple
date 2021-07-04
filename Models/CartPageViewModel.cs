@@ -23,7 +23,7 @@ namespace DeamonSharps.Shop.Simple.Models
 
     public struct CartItemViewModel
     {
-        public Product Product { get; set; }
+        public ProductViewModel Product { get; set; }
 
         public int Count { get; set; }
     }

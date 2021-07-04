@@ -50,7 +50,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
                         Count = p.Count,
                         Product = products
                         .Where(pr => pr.Id == p.ProductId)
-                        .Select(pr => new Product
+                        .Select(pr => new ProductViewModel
                         {
                             Id = pr.Id,
                             Name = pr.Name,
@@ -114,7 +114,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         /// <param name="products">Список продуктов</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([Required] IEnumerable<CartProduct> products, [Required] string returnUrl)
+        public async Task<IActionResult> CreateOrder([Required] IEnumerable<CartItem> products, [Required] string returnUrl)
         {
             await _orderService.CreateOrderInDBAsync(products);
 

@@ -22,7 +22,10 @@ namespace DeamonSharps.Shop.Simple.Services
         /// <returns>Список продуктов</returns>
         public async Task<List<Product_DB>> GetProductsFromDBAsync()
         {
-            var products = await _shopDBContext.Products?.ToListAsync();
+            var products = await _shopDBContext.Products
+                .Include(p => p.ProductCategory)
+                .ThenInclude(pc => pc.Category)
+                .ToListAsync();
 
             return products;
         }
@@ -35,13 +38,13 @@ namespace DeamonSharps.Shop.Simple.Services
         public async Task<List<Product_DB>> GetProductsFromDBByCategoryAsync(int categoryId)
         {
 
-            var caterory = await _shopDBContext.Categories
+            var category = await _shopDBContext.Categories
                 ?.Where(category => category.Id == categoryId)
                 .Include(cat => cat.ProductCategory)
                 .ThenInclude(p => p.Product)
                 .FirstOrDefaultAsync();
 
-            var products = caterory.ProductCategory.Select(pc => pc.Product).ToList();
+            var products = category?.ProductCategory?.Select(pc => pc.Product).ToList();
             return products;
         }
 
@@ -54,6 +57,12 @@ namespace DeamonSharps.Shop.Simple.Services
             var categories = await _shopDBContext?.Categories?.ToListAsync();
 
             return categories;
+        }
+
+
+        public async Task<Category_DB> GetCategoryByIdFromDBAsync(int id)
+        {
+            return await _shopDBContext?.Categories.SingleAsync(c => c.Id == id);
         }
 
         public async Task<Product_DB> GetProductFromDBByIdAsync(int id)

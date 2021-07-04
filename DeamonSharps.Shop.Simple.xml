@@ -4,50 +4,51 @@
         <name>DeamonSharps.Shop.Simple</name>
     </assembly>
     <members>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.CreateOrderInDBAsync(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Models.CartProduct})">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.CreateOrder(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Entities.CartItem})">
             <summary>
             Создание заказа
             </summary>
             <param name="products">Список продуктов в корзине</param>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.GetOrdersAsync">
-            <summary>
-            Получение всех заказов
-            </summary>
-            <returns>Список заказов</returns>
-        </member>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.GetOrdersByPageAsync(System.Int32)">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.GetOrdersByFilter(System.Int32)">
             <summary>
             Получить заказы по номеру страницы
             </summary>
             <param name="page">Номер страницы</param>
             <returns>Список заказов</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.GetPageCountAsync">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.OrderServiceController.GetPageCount">
             <summary>
             Получить количество страниц для заказов
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProductsFromDBAsync">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProducts">
             <summary>
             Получить список всех продуктов
             </summary>
             <returns>Список продуктов</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProductsFromDBByCategoryAsync(System.Int32)">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProductsByCategory(System.Int32)">
             <summary>
             Получить список продуктов по категории
             </summary>
             <param name="categoryId">Номер категории</param>
             <returns>Список продуктов</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetCategoriesFromDBAsync">
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetCategories">
             <summary>
             Получает категории из базы данных
             </summary>
             <returns>Список категорий</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.ConvertProductsDBToProducts(System.Collections.Generic.List{DeamonSharps.Shop.Simple.DataBase.Entities.Product_DB})">
+            <summary>
+            Преобразовать продукты из БД в продукты для апи
+            </summary>
+            <param name="productsDB">Продукты из БД</param>
+            <returns></returns>
         </member>
         <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.#ctor(DeamonSharps.Shop.Simple.Services.Interfaces.IProductService,DeamonSharps.Shop.Simple.Services.Interfaces.IOrderService)">
             <summary>
@@ -82,7 +83,7 @@
             </summary>
             <param name="returnUrl">Адресс страницы, на которую нужно вернуться</param>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.CreateOrder(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Models.CartProduct},System.String)">
+        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.CreateOrder(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Entities.CartItem},System.String)">
             <summary>
             Создание заказа
             </summary>
@@ -376,44 +377,34 @@
             Сериализует объект в сессию по ключу
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.CartViewModel.Products">
-            <summary>
-            Список продуктов в корзине
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.CartViewModel.TotalPrice">
-            <summary>
-            Суммарная стоимость корзины
-            </summary>
-        </member>
-        <member name="T:DeamonSharps.Shop.Simple.Models.CartProduct">
-            <summary>
-            Класс, определяющий элемент корзины
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.CartProduct.Product">
-            <summary>
-            Продукт в корзине
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.CartProduct.Count">
-            <summary>
-            Количество единиц продуктв
-            </summary>
-        </member>
         <member name="T:DeamonSharps.Shop.Simple.Models.CategoryPageViewModel">
             <summary>
             Модель страницы с категориями
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.CategoryViewModel.Id">
+        <member name="P:DeamonSharps.Shop.Simple.Models.CustomerViewModel.Id">
             <summary>
-            Номер категории
+            Номер пользователя
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.CategoryViewModel.Name">
+        <member name="P:DeamonSharps.Shop.Simple.Models.CustomerViewModel.FirstName">
             <summary>
-            Имя категории
+            Имя
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.Models.CustomerViewModel.SecondName">
+            <summary>
+            Фамилия
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.Models.CustomerViewModel.FullName">
+            <summary>
+            Полное имя
+            </summary>
+        </member>
+        <member name="P:DeamonSharps.Shop.Simple.Models.CustomerViewModel.Email">
+            <summary>
+            Почта
             </summary>
         </member>
         <member name="T:DeamonSharps.Shop.Simple.Models.OrderPageViewModel">
@@ -466,52 +457,12 @@
             Текущяя страница
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.Customer.Id">
-            <summary>
-            Номер пользователя
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.Customer.FirstName">
-            <summary>
-            Имя
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.Customer.SecondName">
-            <summary>
-            Фамилия
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.Customer.FullName">
-            <summary>
-            Полное имя
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.Customer.Email">
-            <summary>
-            Почта
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.ProductViewModel.Name">
-            <summary>
-            Название продукта
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.ProductViewModel.Price">
-            <summary>
-            Цена продукта
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.ProductViewModel.ProductId">
-            <summary>
-            Номер продукта
-            </summary>
-        </member>
         <member name="T:DeamonSharps.Shop.Simple.Models.ShopPageViewModel">
             <summary>
-            Моделm страницы с продуктами
+            Модель страницы с продуктами
             </summary>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.CreateOrderInDBAsync(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Models.CartProduct})">
+        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.CreateOrderInDBAsync(System.Collections.Generic.IEnumerable{DeamonSharps.Shop.Simple.Entities.CartItem})">
             <summary>
             Создание заказа в базе данных
             </summary>

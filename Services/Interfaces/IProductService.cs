@@ -12,6 +12,8 @@ namespace DeamonSharps.Shop.Simple.Services.Interfaces
 
         public Task<List<Category_DB>> GetCategoriesFromDBAsync();
 
+        public Task<Category_DB> GetCategoryByIdFromDBAsync(int id);
+
         public Task<Product_DB> GetProductFromDBByIdAsync(int id);
 
         public Task<List<Product_DB>> GetProductsFromDBByIdsAsync(IEnumerable<int> ids);

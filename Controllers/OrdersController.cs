@@ -36,7 +36,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
                     Id = order.Id,
                     CreationDate = order.Creation_Date,
                     Status = order.Status.Name,
-                    Customer = new Customer
+                    Customer = new CustomerViewModel
                     {
                         FirstName = order.User.FirstName,
                         SecondName = order.User.SecondName
@@ -47,7 +47,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
                     new CartItemViewModel
                     {
                         Count = oc.ProductCount,
-                        Product = new Product
+                        Product = new ProductViewModel
                         {
                             Name = oc.Product.Name,
                             Price = oc.Product.Price,
