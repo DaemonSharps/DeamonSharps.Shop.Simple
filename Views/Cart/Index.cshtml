@@ -20,14 +20,12 @@
                         <tr>
                             <th>@prod.Product.Name</th>
                             <th>@prod.Product.Price</th>
-                            <th>@prod.Count</th>
+                            <th><span class="productCount" id="productCount_@prod.Product.Id">@prod.Count</span></th>
                             <th>
-                                @using (Html.BeginForm("Delete", "Cart"))
-                                {
-                                    @Html.Hidden("id", prod.Product.Id);
-                                    @Html.Hidden("returnUrl", Context.Request.Path);
-                                    <input type="submit" class="btn btn-info" value="Удалить" />
-                                }
+                                <div class="row justify-content-around">
+                                    <a id="Add_@prod.Product.Id" class="btn btn-light">+</a>
+                                    <a id="Delete_@prod.Product.Id" class="btn btn-light">-</a>
+                                </div>
 
                             </th>
                         </tr>
@@ -43,16 +41,16 @@
             <div class="row justify-content-around">
                 @using (Html.BeginForm("CreateOrder", "Cart", FormMethod.Post))
                 {
-                    @Html.Hidden("returnUrl", Context.Request.Path);
-                    for (int i = 0; i < Model.Products.Count(); i++)
-                    {
-                        <input type="hidden" name="products.Index" value="@i" />
-                        <input type="hidden" name="products[@i].Count" value="@Model.Products[i].Count" />
-                        <input type="hidden" name="products[@i].ProductId" value="@Model.Products[i].Product.Id" />
-                    }
-
-                    <input type="submit" class="btn btn-outline-success" value="Подтвердить" />
+                @Html.Hidden("returnUrl", Context.Request.Path);
+                for (int i = 0; i < Model.Products.Count(); i++)
+                {
+                    <input type="hidden" name="products.Index" value="@i" />
+                    <input type="hidden" name="products[@i].Count" value="@Model.Products[i].Count" />
+                    <input type="hidden" name="products[@i].ProductId" value="@Model.Products[i].Product.Id" />
                 }
+
+                <input type="submit" class="btn btn-outline-success" value="Подтвердить" />
+            }
                 @using (Html.BeginForm("Clear", "Cart"))
                 {
                     @Html.Hidden("returnUrl", Context.Request.Path);

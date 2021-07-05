@@ -73,9 +73,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
         /// Добавить продукт в корзину
         /// </summary>
         /// <param name="id">Номер продукта в БД</param>
-        /// <param name="returnUrl">Адресс страницы, на которую нужно вернуться</param>
         /// <returns></returns>
-        public async Task<IActionResult> Add(int id, string returnUrl)
+        public async Task<IActionResult> Add(int id)
         {
             var products = await _productService.GetProductsFromDBAsync();
             var product = products.Where(p => p.Id == id)
@@ -85,17 +84,16 @@ namespace DeamonSharps.Shop.Simple.Controllers
 
                 GetCart().Add(product, HttpContext);
             }
-            return LocalRedirect("~" + returnUrl);
+            return Ok();
         }
         /// <summary>
         /// Удалить продукт из корзины
         /// </summary>
         /// <param name="id">Номер продукта в БД</param>
-        /// <param name="returnUrl">Адресс страницы, на которую нужно вернуться</param>
-        public IActionResult Delete(int id, string returnUrl)
+        public IActionResult Delete(int id)
         {
             GetCart().Delete(id, HttpContext);
-            return LocalRedirect("~" + returnUrl);
+            return Ok();
         }
         /// <summary>
         /// Очистить корзину
@@ -127,7 +125,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         /// </summary>
         /// <returns></returns>
         private Cart GetCart()
-        {
+        { 
             Cart existedCart = HttpContext.Session.Get<Cart>("Cart");
             if (existedCart == null)
             {

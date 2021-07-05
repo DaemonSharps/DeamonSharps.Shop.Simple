@@ -62,20 +62,18 @@
             Страница для просмотра и управления содержимым корзины
             </summary>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.Add(System.Int32,System.String)">
+        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.Add(System.Int32)">
             <summary>
             Добавить продукт в корзину
             </summary>
             <param name="id">Номер продукта в БД</param>
-            <param name="returnUrl">Адресс страницы, на которую нужно вернуться</param>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.Delete(System.Int32,System.String)">
+        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.Delete(System.Int32)">
             <summary>
             Удалить продукт из корзины
             </summary>
             <param name="id">Номер продукта в БД</param>
-            <param name="returnUrl">Адресс страницы, на которую нужно вернуться</param>
         </member>
         <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.Clear(System.String)">
             <summary>

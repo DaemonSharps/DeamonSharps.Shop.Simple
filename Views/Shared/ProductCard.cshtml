@@ -7,32 +7,11 @@
             <p>@Model.Name</p>
             <p>Цена: @Model.Price</p>
             @{var count = Context.Session.Get<Cart>("Cart")?.GetCartItem(Model.Id)?.Count ?? 0;}
-            <p>Количество: @count </p>
-            <div class="row justify-content-around">
-                @using (Html.BeginForm("Add", "Cart"))
-                {
-                    @Html.Hidden("id", Model.Id);
-                    @Html.Hidden("returnUrl", Context.Request.Path + Context.Request.QueryString);
-                    <input type="submit" class="btn btn-info" value="В корзину" />
-                }
-
-                @using (Html.BeginForm("Delete", "Cart"))
-                {
-                    @Html.Hidden("id", Model.Id);
-                    @Html.Hidden("returnUrl", Context.Request.Path + Context.Request.QueryString);
-                    @if (count != 0)
-                    {
-                        <input type="submit" class="btn btn-dark" value="Удалить" />
-                    }
-                    else
-                    {
-                        <input type="submit" class="btn btn-dark" value="Удалить" disabled />
-                    }
-
-                }
+            <div class="row justify-content-around btn-group" role="group">
+                <a id="Add_@Model.Id" class="btn btn-light">+</a>
+                <span class="productCount" id="productCount_@Model.Id">@count</span>
+                <a id="Delete_@Model.Id" class="btn btn-light">-</a>
             </div>
-            
-
         </div>
     </div>
 </div>
