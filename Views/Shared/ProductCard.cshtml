@@ -6,6 +6,7 @@
         <div class="card-body">
             <p>@Model.Name</p>
             <p>Цена: @Model.Price</p>
+            <p>Описание: @Model.Description</p>
             @{var count = Context.Session.Get<Cart>("Cart")?.GetCartItem(Model.Id)?.Count ?? 0;}
             <div class="row justify-content-around btn-group" role="group">
                 <a id="Add_@Model.Id" class="btn btn-light">+</a>
