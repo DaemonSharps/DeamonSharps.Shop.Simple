@@ -72,6 +72,32 @@ namespace DeamonSharps.Shop.Simple.Api.Services
         }
 
         /// <summary>
+        /// Получить список продуктов по фильтру
+        /// </summary>
+        /// <param name="category">Номер категории продуктов</param>
+        /// <param name="page">Номер страницы</param>
+        /// <returns></returns>
+        [HttpGet(nameof(GetProductsByFilter))]
+        [SwaggerOperation(nameof(GetProductsByFilter))]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<Product>))]
+        public async Task<IActionResult> GetProductsByFilter(int page, int category)
+        {
+            try
+            {
+                var productsDB = await _productService.GetProductsFromDBByFilterAsync(page, category);
+                if (productsDB == null || productsDB.Count == 0)
+                {
+                    return BadRequest($"По заданному фильтру не нашлось продуктов");
+                }
+                var products = await ConvertProductsDBToProducts(productsDB);
+                return Ok(products);
+            }
+            catch (System.Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        /// <summary>
         /// Получает категории из базы данных
         /// </summary>
         /// <returns>Список категорий</returns>

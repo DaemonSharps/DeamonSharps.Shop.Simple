@@ -44,11 +44,11 @@ $("[id^='CategorySelect_']").click(function () {
     let catId = +$(this).attr("id").split("_")[1];
     
     $.ajax({
-
-        url: 'api/ProductService/GetProductsByCategory',
+        url: 'api/ProductService/GetProductsByFilter',
         type: 'GET',
+        contentType: 'application/json',
         data: {
-            'categoryId': catId
+            'category': catId
         },
         dataType: 'json',
         success: function (data) {
@@ -57,6 +57,13 @@ $("[id^='CategorySelect_']").click(function () {
                 let product = data[i];
                 RenderProductCard(product);
             };
+            if (data.length<8) {
+                $('#showMoreProducts').hide();
+            } else {
+                let showButton = $('#showMoreProducts');
+                showButton.show();
+                showButton.attr('data-category', catId);
+            }
         }
     });
 });
@@ -97,5 +104,37 @@ function UpdateCartTotalPrice(productId) {
     let totalPriceElement = document.getElementById('cartTotalPrice');
     let newTotalPrice = +totalPriceElement.innerHTML.replace(",", ".") + +productPrice.replace(",", ".")
     totalPriceElement.innerHTML = newTotalPrice.toFixed(2);
-
 }
+
+$('#showMoreProducts').click(function () {
+    let showMoreButton = $(this);
+    let page = showMoreButton.attr('data-page');
+    let category = +showMoreButton.attr('data-category');
+
+    page++;
+
+    $.ajax({
+        url: "api/ProductService/GetProductsByFilter",
+        type: 'GET',
+        contentType: 'application/json',
+        data: {
+            'page': page,
+            'category': category
+        },
+        dataType: 'json',
+        success: function (data ) {
+            for (var i = 0; i < data.length; i++) {
+                let product = data[i];
+                RenderProductCard(product);
+            }
+            if (data.length<8) {
+                showMoreButton.hide();
+            }
+        },
+        error: function (data) {
+            console.log(data.responseJSON);
+            showMoreButton.hide();
+        }
+    });
+    showMoreButton.attr('data-page', page);
+});

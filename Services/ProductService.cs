@@ -2,6 +2,7 @@
 using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace DeamonSharps.Shop.Simple.Services
     public class ProductService : IProductService
     {
         private readonly ShopDBContext _shopDBContext;
+        private const int PerPage = 8;
         public ProductService(ShopDBContext shopDBContext)
         {
             _shopDBContext = shopDBContext;
@@ -78,6 +80,43 @@ namespace DeamonSharps.Shop.Simple.Services
                 products.Add(await GetProductFromDBByIdAsync(ids.ElementAt(i)));
             }
 
+            return products;
+        }
+
+        public async Task<List<Product_DB>> GetProductsFromDBByFilterAsync(int page, int categoryId = 0)
+        {
+            if (page == 0 && categoryId == 0)
+            {
+                throw new ArgumentException("You must fill in at least one field");
+            }
+
+            var products = new List<Product_DB>();
+            var productFrom = PerPage * (page - 1);
+            var productTo = (page * PerPage) - 1;
+            var productsDB = new List<Product_DB>();
+
+            if (categoryId != 0)
+            {
+                productsDB = await GetProductsFromDBByCategoryAsync(categoryId);
+            }
+            else
+            {
+                productsDB = await GetProductsFromDBAsync();
+            }
+
+            if (page == 0)
+            {
+                return productsDB;
+            }
+
+            for (int i = productFrom; i <= productTo; i++)
+            {
+                if (i <= productsDB.Count() - 1)
+                {
+                    products.Add(productsDB.ElementAt(i));
+                }
+
+            }
             return products;
         }
     }

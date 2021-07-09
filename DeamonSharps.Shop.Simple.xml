@@ -37,6 +37,14 @@
             <param name="categoryId">Номер категории</param>
             <returns>Список продуктов</returns>
         </member>
+        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProductsByFilter(System.Int32,System.Int32)">
+            <summary>
+            Получить список продуктов по фильтру
+            </summary>
+            <param name="category">Номер категории продуктов</param>
+            <param name="page">Номер страницы</param>
+            <returns></returns>
+        </member>
         <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetCategories">
             <summary>
             Получает категории из базы данных

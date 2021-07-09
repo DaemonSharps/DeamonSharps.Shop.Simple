@@ -25,16 +25,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int categoryId, string categoryName)
         {
-            var productsDB = new List<Product_DB>();
-            if (categoryId == 0)
-            {
-                productsDB = await _productService.GetProductsFromDBAsync();
-            }
-            else
-            {
-                productsDB = await _productService.GetProductsFromDBByCategoryAsync(categoryId);
+            var productsDB = await _productService.GetProductsFromDBByFilterAsync(1, categoryId);
 
-            }
             var products = productsDB
                 .Select(p =>
                 new ProductViewModel
