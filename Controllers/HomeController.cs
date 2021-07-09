@@ -10,32 +10,11 @@ namespace DeamonSharps.Shop.Simple.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IProductService _productService;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger,
-            IProductService productService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _productService = productService;
-        }
-        /// <summary>
-        /// Начальная страница с категориями продуктов
-        /// </summary>
-        public async Task<IActionResult> Index()
-        {
-            var categories = await _productService.GetCategoriesFromDBAsync();
-            var model = new CategoryPageViewModel
-            {
-                Categories = categories
-                .Select(c =>
-                new CategoryViewModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                }).ToList()
-            };
-            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
