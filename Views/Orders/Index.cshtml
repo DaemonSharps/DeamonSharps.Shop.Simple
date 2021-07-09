@@ -1,19 +1,19 @@
-﻿@{ 
+﻿@{
     ViewData["Title"] = "Заказы";
 }
 @model OrderPageViewModel;
 <div class="container">
-    <div class="table">
+    <div class="row">
         @if (Model.Orders.Count != 0)
         {
-            <table>
-                <thead>
+            <table class="table w-100">
+                <thead class="thead-dark">
                     <tr>
-                        <th>Номер заказа</th>
-                        <th>Статус заказа</th>
-                        <th>Дата создания</th>
-                        <th>Покупатель</th>
-                        <th>Список покупок</th>
+                        <th style="width:10%">Номер</th>
+                        <th style="width:20%">Статус</th>
+                        <th style="width:20%">Дата создания</th>
+                        <th style="width:20%">Покупатель</th>
+                        <th style="width:30%">Сумма покупок</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                             <th>@Model.Orders[i].Status</th>
                             <th>@Model.Orders[i].CreationDate.ToString()</th>
                             <th>@Model.Orders[i].Customer.FullName</th>
-                            <th>@string.Join(" ;", Model.Orders[i].Products.Select(p => $"{p.Product.Name} {p.Count}"))</th>
+                            <th>@Model.Orders[i].Products.Sum(p => p.Count * p.Product.Price)</th>
                         </tr>
                     }
                 </tbody>
@@ -34,16 +34,14 @@
         {
             <p>Вы еще не сделали ни одного заказа.</p>
         }
-
-
     </div>
-    @if (Model.Orders.Count != 0)
-    {
-        await Html.RenderPartialAsync("OrdersPageSelector",
-            new ViewDataDictionary(ViewData)
-            {
-                {"PageCount" ,Model.PageCount },
-                {"CurrentPage" ,Model.CurrentPage}
-            });
-    }
 </div>
+@if (Model.Orders.Count != 0)
+{
+    await Html.RenderPartialAsync("OrdersPageSelector",
+        new ViewDataDictionary(ViewData)
+        {
+                {"PageCount" ,Model.PageCount},
+                {"CurrentPage" ,Model.CurrentPage}
+        });
+}

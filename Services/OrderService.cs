@@ -15,7 +15,7 @@ namespace DeamonSharps.Shop.Simple.Services
     {
         private readonly ShopDBContext _shopDBContext;
 
-        private const int PerPage = 10;
+        private const int PerPage = 14;
         public OrderService(ShopDBContext shopDBContext)
         {
             _shopDBContext = shopDBContext;

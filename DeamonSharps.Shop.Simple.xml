@@ -448,16 +448,6 @@
             Список продуктов в заказе
             </summary>
         </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.OrderViewModel.PageCount">
-            <summary>
-            Количество страниц
-            </summary>
-        </member>
-        <member name="P:DeamonSharps.Shop.Simple.Models.OrderViewModel.CurrentPage">
-            <summary>
-            Текущяя страница
-            </summary>
-        </member>
         <member name="T:DeamonSharps.Shop.Simple.Models.ShopPageViewModel">
             <summary>
             Модель страницы с продуктами

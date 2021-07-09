@@ -53,9 +53,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
                             Price = oc.Product.Price,
                             Id = oc.Product.Id
                         }
-                    }).ToList(),
-                    PageCount = pageCount,
-                    CurrentPage = page
+                    }).ToList()
                 }).ToList()
             };
 
