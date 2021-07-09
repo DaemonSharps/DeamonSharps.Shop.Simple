@@ -103,11 +103,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Controllers.HomeController.Index">
-            <summary>
-            Начальная страница с категориями продуктов
-            </summary>
-        </member>
         <member name="M:DeamonSharps.Shop.Simple.Controllers.OrdersController.Index(System.Int32)">
             <summary>
             Страница для вывода заказов
