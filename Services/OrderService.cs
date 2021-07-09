@@ -72,7 +72,7 @@ namespace DeamonSharps.Shop.Simple.Services
         /// </summary>
         /// <param name="page">Номер страницы</param>
         /// <returns>Список заказов</returns>
-        public async Task<IEnumerable<Order_DB>> GetOrdersByPageAsync(int page)
+        public async Task<IEnumerable<Order_DB>> GetOrdersByFilterAsync(int page)
         {
             if (page == 0)
             {

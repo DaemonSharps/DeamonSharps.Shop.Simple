@@ -29,7 +29,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
             {
                 Categories = categories
                 .Select(c =>
-                new Category
+                new CategoryViewModel
                 {
                     Id = c.Id,
                     Name = c.Name

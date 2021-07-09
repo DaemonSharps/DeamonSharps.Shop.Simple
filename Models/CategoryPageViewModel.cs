@@ -9,13 +9,6 @@ namespace DeamonSharps.Shop.Simple.Models
     {
 
         public string Title { get; set; } = "Категории";
-        public List<Category> Categories { get; set; }
-    }
-
-    public struct Category
-    {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
+        public List<CategoryViewModel> Categories { get; set; }
     }
 }

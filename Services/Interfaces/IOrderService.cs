@@ -12,7 +12,7 @@ namespace DeamonSharps.Shop.Simple.Services.Interfaces
 
         Task<IEnumerable<Order_DB>> GetOrdersAsync();
 
-        Task<IEnumerable<Order_DB>> GetOrdersByPageAsync(int page);
+        Task<IEnumerable<Order_DB>> GetOrdersByFilterAsync(int page);
 
         Task<int> GetPageCountAsync();
     }

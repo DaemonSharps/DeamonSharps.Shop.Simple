@@ -24,7 +24,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         {
             page = page == 0 ? 1 : page;
             var pageCount = await _orderService.GetPageCountAsync();
-            var orders = await _orderService.GetOrdersByPageAsync(page);
+            var orders = await _orderService.GetOrdersByFilterAsync(page);
 
             var pageModel = new OrderPageViewModel
             {

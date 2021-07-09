@@ -64,7 +64,7 @@ namespace DeamonSharps.Shop.Simple.Api.Services
         {
             try
             {
-                var ordersDB = await _orderService.GetOrdersByPageAsync(page);
+                var ordersDB = await _orderService.GetOrdersByFilterAsync(page);
                 var orders = ConvertOrdersDBToOrders(ordersDB.ToArray());
                
                 return Ok(orders);

@@ -19,7 +19,7 @@
                     {
                         <tr>
                             <th>@prod.Product.Name</th>
-                            <th>@prod.Product.Price</th>
+                            <th id="productPrice_@prod.Product.Id">@prod.Product.Price</th>
                             <th><span class="productCount" id="productCount_@prod.Product.Id">@prod.Count</span></th>
                             <th>
                                 <div class="row justify-content-around">
@@ -34,7 +34,7 @@
                 <tfoot>
                     <tr>
                         <th class="text-right">Цена</th>
-                        <th>@Model.TotalPrice</th>
+                        <th id="cartTotalPrice">@Model.TotalPrice</th>
                     </tr>
                 </tfoot>
             </table>

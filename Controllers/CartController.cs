@@ -120,6 +120,13 @@ namespace DeamonSharps.Shop.Simple.Controllers
 
             return LocalRedirect("~" + returnUrl);
         }
+
+        public IActionResult GetCartProductCount(int productId)
+        {
+            var count = GetCart().Products.Where(p => p.ProductId == productId).FirstOrDefault()?.Count ?? 0;
+
+            return Ok(count);
+        }
         /// <summary>
         /// Получает экземпляр корзины из сессии либо создает пустую
         /// </summary>

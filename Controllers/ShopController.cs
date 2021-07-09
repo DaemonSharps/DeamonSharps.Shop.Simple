@@ -42,10 +42,19 @@ namespace DeamonSharps.Shop.Simple.Controllers
                     Description = p.About
                 }).ToList();
 
+            var categories = (await _productService.GetCategoriesFromDBAsync())
+                .Select(c => 
+                new CategoryViewModel 
+                { 
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToList();
+
             var model = new ShopPageViewModel
             {
                 CategoryName = categoryName ?? "Все товары",
-                Products = products
+                Products = products,
+                Categories = categories
             };
             return View(model);
         }

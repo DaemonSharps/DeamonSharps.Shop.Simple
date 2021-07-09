@@ -11,6 +11,8 @@ namespace DeamonSharps.Shop.Simple.Models
 
         public string CategoryName { get; set; }
 
+        public List<CategoryViewModel> Categories { get; set; }
+
         public List<ProductViewModel> Products { get; set; }
     }
 }

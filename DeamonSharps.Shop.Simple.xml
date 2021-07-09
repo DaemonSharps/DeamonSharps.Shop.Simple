@@ -473,7 +473,7 @@
             </summary>
             <returns>Список заказов</returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.GetOrdersByPageAsync(System.Int32)">
+        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.GetOrdersByFilterAsync(System.Int32)">
             <summary>
             Получить заказы по номеру страницы
             </summary>
