@@ -4,7 +4,7 @@
 // Write your JavaScript code.
 
 function onAdd() {
-    $("[id^='Add_']").click(function () {
+    $("a[id^='Add_']").click(function () {
         var prodId = $(this).attr("id").split("_")[1];
         console.log(prodId);
         var prodCountElement = document.getElementById("productCount_" + prodId);
@@ -15,7 +15,7 @@ function onAdd() {
     });
 }
 function onDelete() {
-    $("[id^='Delete_']").click(function () {
+    $("a[id^='Delete_']").click(function () {
         var prodId = $(this).attr("id").split("_")[1];
         console.log(prodId);
         var prodCountElement = document.getElementById("productCount_" + prodId);
@@ -52,53 +52,50 @@ $("[id^='CategorySelect_']").click(function () {
         },
         dataType: 'json',
         success: function (data) {
-            let productCards = "";
+            document.getElementById('products').innerHTML = '';
             for (var i = 0; i < data.length; i++) {
                 let product = data[i];
-                productCards += RenderProductCard(product);
-                $.ajax({
-
-                    url: 'Cart/GetCartProductCount',
-                    type: 'GET',
-                    data: {
-                        'productId': product.id
-                    },
-                    dataType: 'json',
-                    success: function (data) {
-                        document.getElementById('productCount_' + product.id).innerText = String(data);
-                    }
-                });
-            }
-            document.getElementById('products').innerHTML = productCards;
-            onAdd();
-            onDelete();
+                RenderProductCard(product);
+            };
         }
     });
-
-    
 });
 
 function RenderProductCard(product) {
-    let productCard = "<div class='col-md-4'>" +
-        "<div class='card mb-4 shadow-sm' >" +
-        "<div class='card-body'>" +
-        "<p>" + product.name + "</p>" +
-        "<p>Цена:" + product.price + "</p>" +
-        "<p>Описание:" + product.description + "</p>" +
-        "<div class='row justify-content-around btn-group' role='group'>" +
-        "<a id='Add_" + product.id + "' class='btn btn-light'>+</a>" +
-        "<span class='productCount' id='productCount_" + product.id + "'></span>" +
-        "<a id='Delete_" + product.id + "' class='btn btn-light'>-</a>" +
-        "</div>" +
-        "</div>" +
-        "</div>" +
-        "</div>";
-    return productCard;   
+    $.ajax({
+        url: 'Shop/GetProductCard',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(product),
+        dataType: 'html',
+        success: function (data) {
+            document.getElementById('products').innerHTML += data;
+            UpdateProductCount(product.id);
+            onAdd();
+            onDelete();
+        }
+
+    });  
+}
+
+function UpdateProductCount(productId) {
+    $.ajax({
+        url: 'Cart/GetCartProductCount',
+        type: 'GET',
+        data: {
+            'productId': productId
+        },
+        dataType: 'json',
+        success: function (data) {
+            document.getElementById('productCount_' + productId).innerText = String(data);
+        }
+    });
 }
 
 function UpdateCartTotalPrice(productId) {
     let productPrice = document.getElementById('productPrice_' + productId).innerHTML;
     let totalPriceElement = document.getElementById('cartTotalPrice');
-    totalPriceElement.innerHTML = (+totalPriceElement.innerHTML.replace(",", ".") + +productPrice.replace(",", ".")).toFixed(2);
+    let newTotalPrice = +totalPriceElement.innerHTML.replace(",", ".") + +productPrice.replace(",", ".")
+    totalPriceElement.innerHTML = newTotalPrice.toFixed(2);
 
 }

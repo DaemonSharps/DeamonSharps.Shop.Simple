@@ -1,4 +1,7 @@
-﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
+﻿using DeamonSharps.Shop.Simple.Api.Schemas;
+using DeamonSharps.Shop.Simple.DataBase.Entities;
+using DeamonSharps.Shop.Simple.Entities;
+using DeamonSharps.Shop.Simple.Extentions;
 using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +42,12 @@ namespace DeamonSharps.Shop.Simple.Controllers
                     Id = p.Id,
                     Name = p.Name,
                     Price = p.Price,
-                    Description = p.About
+                    Description = p.About,
+                    Count = HttpContext
+                    .Session
+                    .Get<Cart>("Cart")
+                    ?.GetCartItem(p.Id)
+                    ?.Count ?? 0
                 }).ToList();
 
             var categories = (await _productService.GetCategoriesFromDBAsync())
@@ -57,6 +65,18 @@ namespace DeamonSharps.Shop.Simple.Controllers
                 Categories = categories
             };
             return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult GetProductCard([FromBody]Product product)
+        {
+            var model = new ProductViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description
+            };
+            return PartialView("ProductCard", model);
         }
     }
 }
