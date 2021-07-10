@@ -42,7 +42,7 @@ namespace DeamonSharps.Shop.Simple.Api.Services
             {
                 return BadRequest(e.Message);
             }
-            
+
         }
 
         /// <summary>
@@ -123,8 +123,8 @@ namespace DeamonSharps.Shop.Simple.Api.Services
 
                 return BadRequest(e.Message);
             }
-            
-            
+
+
         }
 
         /// <summary>

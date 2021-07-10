@@ -1,8 +1,6 @@
 ﻿using DeamonSharps.Shop.Simple.Api.Schemas;
-using DeamonSharps.Shop.Simple.DataBase.Context;
 using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Entities;
-using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -66,7 +64,7 @@ namespace DeamonSharps.Shop.Simple.Api.Services
             {
                 var ordersDB = await _orderService.GetOrdersByFilterAsync(page);
                 var orders = ConvertOrdersDBToOrders(ordersDB.ToArray());
-               
+
                 return Ok(orders);
 
             }
@@ -78,7 +76,7 @@ namespace DeamonSharps.Shop.Simple.Api.Services
             {
                 return BadRequest(e.Message);
             }
-            
+
         }
 
         /// <summary>

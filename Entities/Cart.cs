@@ -1,5 +1,4 @@
-﻿using DeamonSharps.Shop.Simple.DataBase.Context;
-using DeamonSharps.Shop.Simple.DataBase.Entities;
+﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Extentions;
 using Microsoft.AspNetCore.Http;
 using System;

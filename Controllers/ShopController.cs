@@ -1,11 +1,9 @@
 ﻿using DeamonSharps.Shop.Simple.Api.Schemas;
-using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Entities;
 using DeamonSharps.Shop.Simple.Extentions;
 using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,9 +41,9 @@ namespace DeamonSharps.Shop.Simple.Controllers
                 }).ToList();
 
             var categories = (await _productService.GetCategoriesFromDBAsync())
-                .Select(c => 
-                new CategoryViewModel 
-                { 
+                .Select(c =>
+                new CategoryViewModel
+                {
                     Id = c.Id,
                     Name = c.Name
                 }).ToList();
@@ -60,7 +58,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetProductCard([FromBody]Product product)
+        public IActionResult GetProductCard([FromBody] Product product)
         {
             var model = new ProductViewModel
             {

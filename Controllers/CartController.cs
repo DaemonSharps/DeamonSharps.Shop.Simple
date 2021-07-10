@@ -132,7 +132,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         /// </summary>
         /// <returns></returns>
         private Cart GetCart()
-        { 
+        {
             Cart existedCart = HttpContext.Session.Get<Cart>("Cart");
             if (existedCart == null)
             {

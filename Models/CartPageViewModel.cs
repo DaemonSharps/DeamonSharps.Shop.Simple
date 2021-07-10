@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DeamonSharps.Shop.Simple.Models
 {

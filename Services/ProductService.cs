@@ -69,7 +69,7 @@ namespace DeamonSharps.Shop.Simple.Services
 
         public async Task<Product_DB> GetProductFromDBByIdAsync(int id)
         {
-           return await _shopDBContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+            return await _shopDBContext.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<List<Product_DB>> GetProductsFromDBByIdsAsync(IEnumerable<int> ids)

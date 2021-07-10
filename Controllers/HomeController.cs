@@ -1,10 +1,7 @@
 ﻿using DeamonSharps.Shop.Simple.Models;
-using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DeamonSharps.Shop.Simple.Controllers
 {

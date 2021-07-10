@@ -1,6 +1,5 @@
 ﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Entities;
-using DeamonSharps.Shop.Simple.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

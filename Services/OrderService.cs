@@ -1,7 +1,6 @@
 ﻿using DeamonSharps.Shop.Simple.DataBase.Context;
 using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Entities;
-using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -1,5 +1,4 @@
-﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
-using DeamonSharps.Shop.Simple.Models;
+﻿using DeamonSharps.Shop.Simple.Models;
 using DeamonSharps.Shop.Simple.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
