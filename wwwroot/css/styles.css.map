@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://asp.net/./wwwroot/lib/ShopCss/StyleSheet.css"],"names":[],"mappings":"AAAA;IACI,kBAAkB;IAClB,YAAY;IACZ,WAAW;IACX,YAAY;AAChB","file":"css/styles.css","sourcesContent":[".productCount {\r\n    text-align: center;\r\n    border: none;\r\n    width: 30px;\r\n    margin: auto;\r\n}\r\n"],"sourceRoot":""}
