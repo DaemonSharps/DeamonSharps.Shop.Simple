@@ -2,11 +2,10 @@
     ViewData["Title"] = "Заказы";
 }
 @model OrderPageViewModel;
-<div class="container">
-    <div class="row">
+    <div class="row h-100">
         @if (Model.Orders.Count != 0)
         {
-            <table class="table w-100">
+            <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <th style="width:10%">Номер</th>
@@ -34,14 +33,15 @@
         {
             <p>Вы еще не сделали ни одного заказа.</p>
         }
-    </div>
-</div>
-@if (Model.Orders.Count != 0)
-{
-    await Html.RenderPartialAsync("OrdersPageSelector",
-        new ViewDataDictionary(ViewData)
+
+        @if (Model.Orders.Count != 0)
         {
-                {"PageCount" ,Model.PageCount},
-                {"CurrentPage" ,Model.CurrentPage}
-        });
-}
+            await Html.RenderPartialAsync("OrdersPageSelector",
+                new ViewDataDictionary(ViewData)
+                {
+                    {"PageCount" ,Model.PageCount},
+                    {"CurrentPage" ,Model.CurrentPage}
+                });
+        }
+    </div>
+

@@ -16,10 +16,8 @@
             [siteCssFolder + 'styles']: "./wwwroot/lib/ShopCss/StyleSheet.css",
             [siteJSFolder + '/scripts']: "./wwwroot/lib/ShopJS/site.js",
             [siteBootstrapFolder + '/bootstrap']: [
-                bootstrapCssFolder + "bootstrap.css",
-                bootstrapCssFolder + "bootstrap-grid.css",
-                bootstrapCssFolder + "bootstrap-reboot.css",
-                bootstrapCssFolder + "bootstrap-utilities.css"]
+                bootstrapCssFolder + "bootstrap.css"
+            ]
             },
 
         output: {
@@ -35,7 +33,6 @@
             ]),
             new MiniCssExtractPlugin()
         ],
-        devtool: 'source-map',
         module: {
             rules: [
                 {

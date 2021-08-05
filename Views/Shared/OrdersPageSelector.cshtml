@@ -2,7 +2,7 @@
     var pageCount = (int)ViewData["PageCount"];
     var currentPage = (int)ViewData["CurrentPage"];
 }
-<nav aria-label="Page navigation example">
+<nav class="mb-1">
     <ul class="pagination justify-content-center">
         @if (currentPage == 1)
         {
@@ -22,7 +22,7 @@
         {
             @if (currentPage == i)
             {
-                <li class="page-item active"><a class="page-link" href="../Orders?page=@i">@i</a><span class="sr-only">(current)</span></li>
+                <li class="page-item active"><a class="page-link" href="../Orders?page=@i">@i</a><span class="sr-only"></span></li>
             }
             else
             {
@@ -45,3 +45,4 @@
 
     </ul>
 </nav>
+    

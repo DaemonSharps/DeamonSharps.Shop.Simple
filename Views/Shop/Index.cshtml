@@ -2,16 +2,14 @@
 @{
     ViewData["Title"] = Model.Title;
 }
-<div class="container">
-    <h1>@ViewData["Title"]-@Model.CategoryName</h1>
-    <div class="container-fluid">
+    <div class="container-fluid mt-2">
         <div class="row">
             <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
                 <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
+                    <ul class="nav nav-selector flex-column">
                         @foreach (var category in Model.Categories)
                         {
-                            <li class="nav-item p-1"><a id="CategorySelect_@category.Id" onclick="" class="nav-link btn btn-light">@category.Name</a></li>
+                            <li class="p-1 text-center"><a id="CategorySelect_@category.Id" class="nav-link">@category.Name</a></li>
                         }
                     </ul>
                 </div>
@@ -33,7 +31,6 @@
         </div>
 
     </div>
-</div>
 
 
 

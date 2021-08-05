@@ -5,5 +5,32 @@
     margin: auto;
 }
 
+html {
+    overflow-x: hidden;
+    margin-right: calc(-1 * (100vw - 100%))
+}
 
-/*# sourceMappingURL=styles.css.map*/
+.nav-selector .nav-link {
+    font-weight: 500;
+    color: rgb(119 119 119);
+    background-color: transparent;
+    border-right: .25rem solid transparent;
+}
+
+.nav-selector .nav-link:hover,
+.nav-selector .nav-link:focus {
+    border-right-color: rgb(0 0 0);
+}
+
+.nav-selector .active {
+    color: rgb(0 0 0);
+    border-right-color: #dc3545;
+}
+
+body{
+    min-height: 100vh;
+    height: auto;
+}
+main, .container {
+    height: 100%;
+}

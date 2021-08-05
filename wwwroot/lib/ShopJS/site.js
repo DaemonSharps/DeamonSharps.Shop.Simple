@@ -39,7 +39,15 @@ function Add(id) {
     console.log("Start add");
     $.get(location.origin + "/Cart/Add?id=" + id);
 }
-
+function UpdateActiveCategoryButton(id) {
+    let buttons = $("[id^='CategorySelect_'].active");
+    for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].id != id) {
+            $("#" + buttons[i].id).toggleClass('active');
+        }
+    }
+    $("#" + id).toggleClass('active', true);
+}
 $("[id^='CategorySelect_']").click(function () {
     let catId = +$(this).attr("id").split("_")[1];
     
@@ -66,6 +74,7 @@ $("[id^='CategorySelect_']").click(function () {
             }
         }
     });
+    UpdateActiveCategoryButton(this.id);
 });
 
 function RenderProductCard(product) {

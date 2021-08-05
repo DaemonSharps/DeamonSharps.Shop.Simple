@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CSS\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\lib\ShopCss\StyleSheet.css" />
   </ItemGroup>
   

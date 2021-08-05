@@ -2,11 +2,10 @@
 @{
     ViewData["Title"] = Model.Title;
 }
-<div class="container">
     <div class="table">
         @if (@Model.Products != null && Model.Products.Count != 0)
         {
-            <table class="table table-striped table-sm">
+            <table class="table table-sm">
                 <thead>
                     <tr>
                         <th>Продукт</th>
@@ -22,7 +21,7 @@
                             <th id="productPrice_@prod.Product.Id">@prod.Product.Price</th>
                             <th><span class="productCount" id="productCount_@prod.Product.Id">@prod.Count</span></th>
                             <th>
-                                <div class="row justify-content-around">
+                                <div class="justify-content-around btn-group" role="group">
                                     <a id="Add_@prod.Product.Id" class="btn btn-light">+</a>
                                     <a id="Delete_@prod.Product.Id" class="btn btn-light">-</a>
                                 </div>
@@ -38,7 +37,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <div class="row justify-content-around">
+            <div class="justify-content-around">
                 @using (Html.BeginForm("CreateOrder", "Cart", FormMethod.Post))
                 {
                 @Html.Hidden("returnUrl", Context.Request.Path);
@@ -64,5 +63,3 @@
             <p>Вы еще не выбрали ни одного продукта.</p>
         }
     </div>
-
-</div>
