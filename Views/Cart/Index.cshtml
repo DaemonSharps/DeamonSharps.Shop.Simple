@@ -37,7 +37,7 @@
                     </tr>
                 </tfoot>
             </table>
-            <div class="justify-content-around">
+            <div class="d-flex justify-content-around">
                 @using (Html.BeginForm("CreateOrder", "Cart", FormMethod.Post))
                 {
                 @Html.Hidden("returnUrl", Context.Request.Path);

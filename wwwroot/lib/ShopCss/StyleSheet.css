@@ -29,7 +29,6 @@ html {
 
 body{
     min-height: 100vh;
-    height: auto;
 }
 main, .container {
     height: 100%;

@@ -16,14 +16,26 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (int i = 0; i < Model.Orders.Count; i++)
+                    @{ var i = 0; }
+                    @for (; i < Model.Orders.Count; i++)
+                    {
+                        var order = Model.Orders[i];
+                        <tr>
+                            <th>@order.Id</th>
+                            <th>@order.Status</th>
+                            <th>@order.CreationDate.ToString()</th>
+                            <th>@order.Customer.FullName</th>
+                            <th>@order.Products.Sum(p => p.Count * p.Product.Price)</th>
+                        </tr>
+                    }
+                    @for (int j = 0; j < 14 - i; j++)
                     {
                         <tr>
-                            <th>@Model.Orders[i].Id</th>
-                            <th>@Model.Orders[i].Status</th>
-                            <th>@Model.Orders[i].CreationDate.ToString()</th>
-                            <th>@Model.Orders[i].Customer.FullName</th>
-                            <th>@Model.Orders[i].Products.Sum(p => p.Count * p.Product.Price)</th>
+                            <th class="text-white">0</th>
+                            <th class="text-white">0</th>
+                            <th class="text-white">0</th>
+                            <th class="text-white">0</th>
+                            <th class="text-white">0</th>
                         </tr>
                     }
                 </tbody>
