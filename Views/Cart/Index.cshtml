@@ -2,64 +2,39 @@
 @{
     ViewData["Title"] = Model.Title;
 }
-    <div class="table">
-        @if (@Model.Products != null && Model.Products.Count != 0)
-        {
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>Продукт</th>
-                        <th>Цена</th>
-                        <th>Количество</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var prod in Model.Products)
-                    {
-                        <tr>
-                            <th>@prod.Product.Name</th>
-                            <th id="productPrice_@prod.Product.Id">@prod.Product.Price</th>
-                            <th><span class="productCount" id="productCount_@prod.Product.Id">@prod.Count</span></th>
-                            <th>
-                                <div class="justify-content-around btn-group" role="group">
-                                    <a id="Add_@prod.Product.Id" class="btn btn-light">+</a>
-                                    <a id="Delete_@prod.Product.Id" class="btn btn-light">-</a>
-                                </div>
-
-                            </th>
-                        </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th class="text-right">Цена</th>
-                        <th id="cartTotalPrice">@Model.TotalPrice</th>
-                    </tr>
-                </tfoot>
-            </table>
-            <div class="d-flex justify-content-around">
-                @using (Html.BeginForm("CreateOrder", "Cart", FormMethod.Post))
-                {
-                @Html.Hidden("returnUrl", Context.Request.Path);
-                for (int i = 0; i < Model.Products.Count(); i++)
+    @if (@Model.Products != null && Model.Products.Count != 0)
+    {
+        <form action="/Cart/CreateOrder" method="post" class="row d-flex justify-content-center">
+            <h2 class="col-md-10 px-4 text-dark fw-bold my-5 mx-3">Корзина</h2>
+            <div class="col-md-7">
+                @{
+                    int i = 0;
+                }
+                @foreach (var prod in Model.Products)
                 {
                     <input type="hidden" name="products.Index" value="@i" />
-                    <input type="hidden" name="products[@i].Count" value="@Model.Products[i].Count" />
                     <input type="hidden" name="products[@i].ProductId" value="@Model.Products[i].Product.Id" />
+                    await Html.RenderPartialAsync("CartItemCard", prod,
+                        new ViewDataDictionary(ViewData)
+                        {
+                            {"index", i++}
+                        });
                 }
-
-                <input type="submit" class="btn btn-outline-success" value="Подтвердить" />
-            }
-                @using (Html.BeginForm("Clear", "Cart"))
-                {
-                    @Html.Hidden("returnUrl", Context.Request.Path);
-                    <input type="submit" class="btn btn-outline-info" value="Очистить корзину" />
-                }
+                @Html.Hidden("returnUrl", Context.Request.Path)
+            </div>
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3">
+                    <h4 class="text-dark fw-normal my-1">Цена заказа: <p id="cartTotalPrice">@Model.TotalPrice.ToString("0.00", new System.Globalization.CultureInfo("en-US"))</p> Р</h4>
+                    <input type="submit" class="btn btn-outline-success w-100 my-2" value="Подтвердить" />
+                    <a class="btn btn-outline-info w-100 my-2">Очистить корзину</a>
+                </div>
             </div>
 
-        }
-        else
-        {
-            <p>Вы еще не выбрали ни одного продукта.</p>
-        }
-    </div>
+        </form>
+    }
+    else
+    {
+        <div class="bg-light my-5 py-5">
+            <h3 class="m-3 fw-normal">Вы еще не выбрали ни одного продукта.</h3>
+        </div>
+    }

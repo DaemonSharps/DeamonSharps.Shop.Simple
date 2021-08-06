@@ -70,6 +70,14 @@
             Страница для просмотра и управления содержимым корзины
             </summary>
         </member>
+        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.UpdateCart(System.Int32,System.Int32)">
+            <summary>
+            Обновляет количество едениц продукта в корзине
+            </summary>
+            <param name="prodId"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
         <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.Add(System.Int32)">
             <summary>
             Добавить продукт в корзину
@@ -339,11 +347,12 @@
             Получить список продуков в корзине
             </summary>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Entities.Cart.Add(DeamonSharps.Shop.Simple.DataBase.Entities.Product_DB,Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:DeamonSharps.Shop.Simple.Entities.Cart.Add(System.Int32,Microsoft.AspNetCore.Http.HttpContext,System.Int32)">
             <summary>
             Добавить продукт в корзину
             </summary>
-            <param name="product">Добавляемый продукт</param>
+            <param name="prodId">Номер добавляемого продукта</param>
+            <param name="count">Количество едениц продукта</param>
             <param name="context"></param>
         </member>
         <member name="M:DeamonSharps.Shop.Simple.Entities.Cart.Delete(System.Int32,Microsoft.AspNetCore.Http.HttpContext)">

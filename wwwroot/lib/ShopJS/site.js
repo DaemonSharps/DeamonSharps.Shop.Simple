@@ -1,17 +1,13 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-
-function onAdd() {
+﻿function onAdd() {
     $("a[id^='Add_']").click(function () {
         var prodId = $(this).attr("id").split("_")[1];
         console.log(prodId);
         var prodCountElement = document.getElementById("productCount_" + prodId);
-        var count = +prodCountElement.innerHTML;
-        prodCountElement.innerHTML = count + 1;
-        Add(prodId);
-        UpdateCartTotalPrice(prodId);
+        var count = +prodCountElement.value;
+        prodCountElement.value = count + 1;
+
+        UpdateCart(prodId, prodCountElement.value);
+        UpdateCartTotalPrice();
     });
 }
 function onDelete() {
@@ -19,25 +15,31 @@ function onDelete() {
         var prodId = $(this).attr("id").split("_")[1];
         console.log(prodId);
         var prodCountElement = document.getElementById("productCount_" + prodId);
-        var count = +prodCountElement.innerHTML;
+        var count = +prodCountElement.value;
         if (count > 0) {
-            prodCountElement.innerHTML = count - 1;
+            prodCountElement.value = count - 1;
         }
-        Delete(prodId);
-        UpdateCartTotalPrice(prodId);
+        UpdateCart(prodId, prodCountElement.value);
+        UpdateCartTotalPrice();
     });
 }
+function onChangeCount() {
+    $("input[id^='productCount_']").change(function () {
+        var prodId = $(this).attr("id").split("_")[1];
+        var count = $(this).val();
+        console.log("change count:" + prodId + "  " + count);
 
+        UpdateCart(prodId, count);
+        UpdateCartTotalPrice();
+    });
+}
+onChangeCount();
 onAdd();
 onDelete();
 
-function Delete(id) {
-    console.log("Start delete");
-    $.get(location.origin + "/Cart/Delete?id=" + id);
-}
-function Add(id) {
-    console.log("Start add");
-    $.get(location.origin + "/Cart/Add?id=" + id);
+function UpdateCart(id, count) {
+    console.log("Start update");
+    $.get(location.origin + "/Cart/UpdateCart?prodId=" + id + "&count=" + count);
 }
 function UpdateActiveCategoryButton(id) {
     let buttons = $("[id^='CategorySelect_'].active");
@@ -89,6 +91,7 @@ function RenderProductCard(product) {
             UpdateProductCount(product.id);
             onAdd();
             onDelete();
+            onChangeCount();
         }
 
     });  
@@ -103,18 +106,37 @@ function UpdateProductCount(productId) {
         },
         dataType: 'json',
         success: function (data) {
-            document.getElementById('productCount_' + productId).innerText = String(data);
+            $("#productCount_" + productId).val(data);
         }
     });
 }
 
-function UpdateCartTotalPrice(productId) {
-    let productPrice = document.getElementById('productPrice_' + productId).innerHTML;
-    let totalPriceElement = document.getElementById('cartTotalPrice');
-    let newTotalPrice = +totalPriceElement.innerHTML.replace(",", ".") + +productPrice.replace(",", ".")
-    totalPriceElement.innerHTML = newTotalPrice.toFixed(2);
+function UpdateCartTotalPrice() {
+    let products = GetProductsFromPage();
+    let totalPrice = 0.0;
+    for (let i = 0; i < products.length; i++) {
+        totalPrice += products[i].count * products[i].price;
+    }
+    $("#cartTotalPrice").html(totalPrice.toFixed(2));
 }
-
+function GetProductsFromPage() {
+    let products = [];
+    let productCounts = $("input[id^='productCount_']");
+    let productPrices = $("p[id^='productPrice_']");
+    for (var i = 0; i < productCounts.length; i++) {
+        for (var j = 0; j < productPrices.length; j++) {
+            let priceId = productPrices[j].id.split("_")[1];
+            let countId = productCounts[i].id.split("_")[1];
+            if (priceId === countId) {
+                products.push({
+                    price: +productPrices[j].innerHTML,
+                    count: +productCounts[i].value
+                });
+            }
+        }
+    }
+    return products;
+}
 $('#showMoreProducts').click(function () {
     let showMoreButton = $(this);
     let page = showMoreButton.attr('data-page');

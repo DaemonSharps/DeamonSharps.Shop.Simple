@@ -1,0 +1,16 @@
+﻿@model CartItemViewModel;
+<div class="col-md-11 mb-3 mx-2">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">@Model.Product.Name</h5>
+            <p class="card-text">Цена: <p id="productPrice_@Model.Product.Id">@Model.Product.Price.ToString("0.00", new System.Globalization.CultureInfo("en-US"))</p></p>
+            <p class="card-text">Описание: @Model.Product.Description</p>
+            <div class="justify-content-around btn-group" role="group">
+                <a id="Add_@Model.Product.Id" class="btn btn-light">+</a>
+                @{ int i = (int)ViewData["index"]; }
+                <input class="productCount" id="productCount_@Model.Product.Id" type="number" name="products[@i].Count" value="@Model.Count" />
+                <a id="Delete_@Model.Product.Id" class="btn btn-light">-</a>
+            </div>
+        </div>
+    </div>
+</div>

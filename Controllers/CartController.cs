@@ -70,20 +70,27 @@ namespace DeamonSharps.Shop.Simple.Controllers
         }
 
         /// <summary>
+        /// Обновляет количество едениц продукта в корзине
+        /// </summary>
+        /// <param name="prodId"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public IActionResult UpdateCart(int prodId, int count)
+        {
+            GetCart().ChangeProductCount(prodId, count, HttpContext);
+
+            return Ok();
+        }
+
+        /// <summary>
         /// Добавить продукт в корзину
         /// </summary>
         /// <param name="id">Номер продукта в БД</param>
         /// <returns></returns>
-        public async Task<IActionResult> Add(int id)
+        public IActionResult Add(int id)
         {
-            var products = await _productService.GetProductsFromDBAsync();
-            var product = products.Where(p => p.Id == id)
-                .FirstOrDefault();
-            if (product != null)
-            {
+            GetCart().Add(id, HttpContext);
 
-                GetCart().Add(product, HttpContext);
-            }
             return Ok();
         }
         /// <summary>

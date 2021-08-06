@@ -34,29 +34,48 @@ namespace DeamonSharps.Shop.Simple.Entities
             }
         }
 
+        public void ChangeProductCount(int prodId, int count, HttpContext context)
+        {
+            CartItem existedProduct = productsList?.FirstOrDefault(p => p.ProductId == prodId);
+            if (existedProduct == null)
+            {
+                Add(prodId, context, count);
+            }
+            else if (existedProduct != null && count == 0)
+            {
+                Delete(prodId, context);
+            }
+            else
+            {
+                existedProduct.Count = count;
+                context.Session.Set("Cart", this);
+            }
+        }
+
         /// <summary>
         /// Добавить продукт в корзину
         /// </summary>
-        /// <param name="product">Добавляемый продукт</param>
+        /// <param name="prodId">Номер добавляемого продукта</param>
+        /// <param name="count">Количество едениц продукта</param>
         /// <param name="context"></param>
-        public void Add(Product_DB product, HttpContext context)
+        public void Add(int prodId, HttpContext context, int count = 0)
         {
             CartItem existedProduct = productsList
-                ?.Where(p => p.ProductId == product.Id)
+                ?.Where(p => p.ProductId == prodId)
                 .FirstOrDefault();
             if (existedProduct == null)
             {
                 productsList.Add(new CartItem
                 {
-                    ProductId = product.Id,
-                    Count = +1
+                    ProductId = prodId,
+                    Count = count == 0 ? 1:count
                 });
                 context.Session.Set("Cart", this);
 
             }
             else
             {
-                existedProduct.Count++;
+                existedProduct.Count += count == 0 ? 1: count;
                 context.Session.Set("Cart", this);
             }
         }
@@ -70,16 +89,6 @@ namespace DeamonSharps.Shop.Simple.Entities
         {
             var product = productsList.Where(p => p.ProductId == id).FirstOrDefault();
             productsList.Remove(product);
-            if (product != null)
-            {
-                product.Count--;
-
-
-                if (product.Count > 0)
-                {
-                    productsList.Add(product);
-                }
-            }
 
             context.Session.Set("Cart", this);
         }

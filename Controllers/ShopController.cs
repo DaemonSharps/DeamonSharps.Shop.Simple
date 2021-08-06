@@ -64,7 +64,8 @@ namespace DeamonSharps.Shop.Simple.Controllers
             {
                 Id = product.Id,
                 Name = product.Name,
-                Description = product.Description
+                Description = product.Description,
+                Price = product.Price
             };
             return PartialView("ProductCard", model);
         }
