@@ -1,5 +1,4 @@
-﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
-using DeamonSharps.Shop.Simple.Extentions;
+﻿using DeamonSharps.Shop.Simple.Extentions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -13,14 +12,15 @@ namespace DeamonSharps.Shop.Simple.Entities
     [Serializable]
     public class Cart
     {
-        private readonly List<CartItem> productsList;
+        private List<CartItem> productsList;
 
         /// <summary>
         /// Класс корзины
         /// </summary>
-        public Cart()
+        public Cart(params CartItem[] items)
         {
             productsList = new List<CartItem>();
+            productsList.AddRange(items);
         }
 
         /// <summary>
@@ -58,26 +58,14 @@ namespace DeamonSharps.Shop.Simple.Entities
         /// <param name="prodId">Номер добавляемого продукта</param>
         /// <param name="count">Количество едениц продукта</param>
         /// <param name="context"></param>
-        public void Add(int prodId, HttpContext context, int count = 0)
+        private void Add(int prodId, HttpContext context, int count = 0)
         {
-            CartItem existedProduct = productsList
-                ?.Where(p => p.ProductId == prodId)
-                .FirstOrDefault();
-            if (existedProduct == null)
+            productsList.Add(new CartItem
             {
-                productsList.Add(new CartItem
-                {
-                    ProductId = prodId,
-                    Count = count == 0 ? 1:count
-                });
-                context.Session.Set("Cart", this);
-
-            }
-            else
-            {
-                existedProduct.Count += count == 0 ? 1: count;
-                context.Session.Set("Cart", this);
-            }
+                ProductId = prodId,
+                Count = count == 0 ? 1 : count
+            });
+            context.Session.Set("Cart", this);
         }
 
         /// <summary>

@@ -78,13 +78,6 @@
             <param name="count"></param>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.Add(System.Int32)">
-            <summary>
-            Добавить продукт в корзину
-            </summary>
-            <param name="id">Номер продукта в БД</param>
-            <returns></returns>
-        </member>
         <member name="M:DeamonSharps.Shop.Simple.Controllers.CartController.Delete(System.Int32)">
             <summary>
             Удалить продукт из корзины
@@ -337,7 +330,7 @@
             Класс корзины
             </summary>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Entities.Cart.#ctor">
+        <member name="M:DeamonSharps.Shop.Simple.Entities.Cart.#ctor(DeamonSharps.Shop.Simple.Entities.CartItem[])">
             <summary>
             Класс корзины
             </summary>

@@ -34,7 +34,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         public async Task<IActionResult> Index()
         {
             CartPageViewModel CartModel;
-            var cart = HttpContext.Session.Get<Cart>("Cart");
+            var cart = GetCart();
             if (cart != null)
             {
                 var products = await _productService.GetProductsFromDBByIdsAsync(cart.Products.Select(p => p.ProductId));
@@ -82,17 +82,6 @@ namespace DeamonSharps.Shop.Simple.Controllers
             return Ok();
         }
 
-        /// <summary>
-        /// Добавить продукт в корзину
-        /// </summary>
-        /// <param name="id">Номер продукта в БД</param>
-        /// <returns></returns>
-        public IActionResult Add(int id)
-        {
-            GetCart().Add(id, HttpContext);
-
-            return Ok();
-        }
         /// <summary>
         /// Удалить продукт из корзины
         /// </summary>
