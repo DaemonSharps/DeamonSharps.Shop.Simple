@@ -59,5 +59,17 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         /// Поле для реализации one-to-many с заказом
         /// </summary>
         public List<Order_DB> Orders { get; set; } = new List<Order_DB>();
+
+        public static User_DB GetDefaultValue(int index = 1)
+        {
+            return new User_DB
+            {
+                Id = index,
+                FirstName = $"FName{index}",
+                SecondName = $"SName{index}",
+                Password = $"Password{index}",
+                Email_Adress = $"Email{index}"
+            };
+        }
     }
 }

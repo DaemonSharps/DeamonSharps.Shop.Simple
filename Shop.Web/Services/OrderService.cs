@@ -27,13 +27,18 @@ namespace DeamonSharps.Shop.Simple.Services
         /// <returns></returns>
         public async Task<Order_DB> CreateOrderInDBAsync(IEnumerable<CartItem> products)
         {
+            if (products == null || products.Count() == 0)
+            {
+                throw new ArgumentException("Products count should be more than thero.");
+            }
+
             var order = new Order_DB
             {
                 User_Id = 2,
                 Creation_Date = DateTime.Now,
                 Status_Id = 1
             };
-            _shopDBContext?.Shop_Orders.Add(order);
+            _shopDBContext.Shop_Orders.Add(order);
 
             for (int i = 0; i < products.Count(); i++)
             {
@@ -48,22 +53,8 @@ namespace DeamonSharps.Shop.Simple.Services
             await _shopDBContext.SaveChangesAsync();
 
             order.Status = await _shopDBContext.OrderStatus.Where(s => s.Id == order.Status_Id).SingleAsync();
+            order.User = await _shopDBContext.Users.Where(u => u.Id == order.User_Id).SingleAsync();
             return order;
-        }
-
-        /// <summary>
-        /// Получение всех заказов из БД
-        /// </summary>
-        /// <returns>Список заказов</returns>
-        public async Task<IEnumerable<Order_DB>> GetOrdersAsync()
-        {
-            var orders = await _shopDBContext?.Shop_Orders
-                .Include(o => o.User)
-                .Include(o => o.Status)
-                .Include(o => o.Order_Composition)
-                .ThenInclude(oc => oc.Product)
-                .ToListAsync();
-            return orders ?? new List<Order_DB>();
         }
 
         /// <summary>
@@ -77,20 +68,16 @@ namespace DeamonSharps.Shop.Simple.Services
             {
                 throw new ArgumentException("Page is can`t be 0");
             }
-            var orders = new List<Order_DB>();
             var orderFrom = PerPage * (page - 1);
-            var orderTo = (page * PerPage) - 1;
 
-            var ordersDB = await GetOrdersAsync();
-
-            for (int i = orderFrom; i <= orderTo; i++)
-            {
-                if (i <= ordersDB.Count() - 1)
-                {
-                    orders.Add(ordersDB.ElementAt(i));
-                }
-
-            }
+            var orders = await _shopDBContext.Shop_Orders
+                .Skip(orderFrom)
+                .Take(PerPage)
+                .Include(o => o.User)
+                .Include(o => o.Status)
+                .Include(o => o.Order_Composition)
+                .ThenInclude(oc => oc.Product)
+                .ToListAsync();
 
             return orders ?? new List<Order_DB>();
         }

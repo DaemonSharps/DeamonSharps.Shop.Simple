@@ -1,9 +1,11 @@
 ﻿using DeamonSharps.Shop.Simple.DataBase.Entities;
+using DeamonSharps.Shop.Simple.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace DeamonSharps.Shop.Simple.DataBase.Context
 {
-    public class ShopDBContext : DbContext
+    public class ShopDBContext : DbContext, IDefaultValue<List<object>>
     {
         public ShopDBContext(DbContextOptions<ShopDBContext> options) : base(options) { }
 
@@ -64,6 +66,85 @@ namespace DeamonSharps.Shop.Simple.DataBase.Context
                 .HasOne(pc => pc.Product)
                 .WithMany(p => p.ProductCategory)
                 .HasForeignKey(pc => pc.Product_Id);
+        }
+
+        public List<object> GetDefaultValue()
+        {
+            var seed = new List<object>();
+            var categories = new List<Category_DB>();
+            for (int i = 1; i < 5; i++)
+            {
+                var cat = Category_DB.GetDefaultValue(i);
+                categories.Add(cat);
+            }
+
+            var products = new List<Product_DB>();
+            for (int i = 1; i < categories.Count * 2 + 1; i++)
+            {
+                var prod = Product_DB.GetDefaultValue(i);
+                products.Add(prod);
+            }
+
+            var productCategory = new List<ProductCategory_DB>();
+            for (int i = 0; i < categories.Count; i++)
+            {
+                for (int j = i; j <= i + 1; j++)
+                {
+                    var prodCat = new ProductCategory_DB
+                    {
+                        Category_Id = categories[i].Id,
+                        Product_Id = products[j].Id
+                    };
+
+                    productCategory.Add(prodCat);
+                }
+            }
+            var statuses = new List<OrderStatus_DB>
+            {
+                new OrderStatus_DB
+                {
+                    Id = 1,
+                    Name = Entities.OrderStatus.Created.ToString()
+                },
+                new OrderStatus_DB
+                {
+                    Id = 2,
+                    Name = Entities.OrderStatus.InProgress.ToString()
+                },
+                new OrderStatus_DB
+                {
+                    Id = 3,
+                    Name = Entities.OrderStatus.Completed.ToString()
+                }
+            };
+
+            var users = new List<User_DB>();
+            for (int i = 1; i < 5; i++)
+            {
+                var user = User_DB.GetDefaultValue(i);
+                user.Role_Id = 1;
+                users.Add(user);
+            }
+            var roles = new List<Role_DB>
+            {
+                new Role_DB
+                {
+                    Id = 1,
+                    Name = UserRoles.Admin.ToString()
+                },
+                new Role_DB
+                {
+                    Id = 2,
+                    Name = UserRoles.User.ToString()
+                }
+            };
+            seed.AddRange(categories);
+            seed.AddRange(products);
+            seed.AddRange(productCategory);
+            seed.AddRange(statuses);
+            seed.AddRange(users);
+            seed.AddRange(roles);
+            return seed;
         }
     }
 }

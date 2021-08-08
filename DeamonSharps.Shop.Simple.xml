@@ -462,12 +462,6 @@
             <param name="products">Список продуктов в корзине</param>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.GetOrdersAsync">
-            <summary>
-            Получение всех заказов из БД
-            </summary>
-            <returns>Список заказов</returns>
-        </member>
         <member name="M:DeamonSharps.Shop.Simple.Services.OrderService.GetOrdersByFilterAsync(System.Int32)">
             <summary>
             Получить заказы по номеру страницы

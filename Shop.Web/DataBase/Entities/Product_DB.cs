@@ -48,5 +48,15 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         /// </summary>
         public List<OrderComposition_DB> Order_Composition { get; set; } = new List<OrderComposition_DB>();
 
+        public static Product_DB GetDefaultValue(int index = 1)
+        {
+            return new Product_DB
+            {
+                Id = index,
+                Name = $"name{index}",
+                Price = index,
+                About = $"about{index}"
+            };
+        }
     }
 }

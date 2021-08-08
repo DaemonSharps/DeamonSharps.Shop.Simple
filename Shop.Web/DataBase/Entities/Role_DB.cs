@@ -29,4 +29,11 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         /// </summary>
         public List<User_DB> Users { get; set; } = new List<User_DB>();
     }
+
+    public enum UserRoles 
+    {
+        Admin,
+        User
+    }
+
 }

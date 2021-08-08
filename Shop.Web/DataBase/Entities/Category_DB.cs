@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DeamonSharps.Shop.Simple.Interfaces;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,5 +26,14 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         public string Name { get; set; }
 
         public List<ProductCategory_DB> ProductCategory { get; set; } = new List<ProductCategory_DB>();
+
+        public static Category_DB GetDefaultValue(int index = 1)
+        {
+            return new Category_DB
+            {
+                Id = index,
+                Name = "name" + index
+            };
+        }
     }
 }

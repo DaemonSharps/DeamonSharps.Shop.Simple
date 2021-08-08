@@ -9,8 +9,6 @@ namespace DeamonSharps.Shop.Simple.Services.Interfaces
     {
         Task<Order_DB> CreateOrderInDBAsync(IEnumerable<CartItem> products);
 
-        Task<IEnumerable<Order_DB>> GetOrdersAsync();
-
         Task<IEnumerable<Order_DB>> GetOrdersByFilterAsync(int page);
 
         Task<int> GetPageCountAsync();
