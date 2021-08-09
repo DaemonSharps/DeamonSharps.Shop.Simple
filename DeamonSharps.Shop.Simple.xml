@@ -97,7 +97,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Controllers.ShopController.Index(System.Int32,System.String)">
+        <member name="M:DeamonSharps.Shop.Simple.Controllers.ShopController.Index">
             <summary>
             Страница с продуктами в категории или всеми товарами
             </summary>
