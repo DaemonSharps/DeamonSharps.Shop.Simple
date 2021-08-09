@@ -6,10 +6,6 @@ namespace DeamonSharps.Shop.Simple.Services.Interfaces
 {
     public interface IProductService
     {
-        public Task<List<Product_DB>> GetProductsFromDBAsync();
-
-        public Task<List<Product_DB>> GetProductsFromDBByCategoryAsync(int categoryId);
-
         public Task<List<Product_DB>> GetProductsFromDBByFilterAsync(int page, int categoryId);
 
         public Task<List<Category_DB>> GetCategoriesFromDBAsync();

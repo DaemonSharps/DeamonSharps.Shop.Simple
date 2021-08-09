@@ -58,6 +58,7 @@ $("[id^='CategorySelect_']").click(function () {
         type: 'GET',
         contentType: 'application/json',
         data: {
+            'page' : 1,
             'category': catId
         },
         dataType: 'json',

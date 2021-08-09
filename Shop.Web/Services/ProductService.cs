@@ -13,41 +13,10 @@ namespace DeamonSharps.Shop.Simple.Services
     {
         private readonly ShopDBContext _shopDBContext;
         private const int PerPage = 8;
+
         public ProductService(ShopDBContext shopDBContext)
         {
             _shopDBContext = shopDBContext;
-        }
-
-        /// <summary>
-        /// Получить список всех продуктов
-        /// </summary>
-        /// <returns>Список продуктов</returns>
-        public async Task<List<Product_DB>> GetProductsFromDBAsync()
-        {
-            var products = await _shopDBContext.Products
-                .Include(p => p.ProductCategory)
-                .ThenInclude(pc => pc.Category)
-                .ToListAsync();
-
-            return products;
-        }
-
-        /// <summary>
-        /// Получить список продуктов по категории
-        /// </summary>
-        /// <param name="categoryId">Номер категории</param>
-        /// <returns>Список продуктов</returns>
-        public async Task<List<Product_DB>> GetProductsFromDBByCategoryAsync(int categoryId)
-        {
-
-            var category = await _shopDBContext.Categories
-                ?.Where(category => category.Id == categoryId)
-                .Include(cat => cat.ProductCategory)
-                .ThenInclude(p => p.Product)
-                .FirstOrDefaultAsync();
-
-            var products = category?.ProductCategory?.Select(pc => pc.Product).ToList();
-            return products;
         }
 
         /// <summary>
@@ -56,68 +25,69 @@ namespace DeamonSharps.Shop.Simple.Services
         /// <returns>Список категорий</returns>
         public async Task<List<Category_DB>> GetCategoriesFromDBAsync()
         {
-            var categories = await _shopDBContext?.Categories?.ToListAsync();
+            var categories = await _shopDBContext.Categories?.ToListAsync();
 
             return categories;
         }
 
-
+        /// <summary>
+        /// Получает категорию по её ID
+        /// </summary>
+        /// <param name="id">Id категории</param>
+        /// <returns>Категория продукта</returns>
         public async Task<Category_DB> GetCategoryByIdFromDBAsync(int id)
         {
-            return await _shopDBContext?.Categories.SingleAsync(c => c.Id == id);
+            return await _shopDBContext.Categories?.SingleAsync(c => c.Id == id);
         }
 
+        /// <summary>
+        /// Получает продукт по его ID
+        /// </summary>
+        /// <param name="id">Id продукта</param>
+        /// <returns>Продукт</returns>
         public async Task<Product_DB> GetProductFromDBByIdAsync(int id)
         {
             return await _shopDBContext.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
 
+        /// <summary>
+        /// Получает продукты по списку идентификаторов
+        /// </summary>
+        /// <param name="ids">Список Id</param>
+        /// <returns>Список продуктов</returns>
         public async Task<List<Product_DB>> GetProductsFromDBByIdsAsync(IEnumerable<int> ids)
         {
-            var products = new List<Product_DB>();
-            for (int i = 0; i < ids.Count(); i++)
-            {
-                products.Add(await GetProductFromDBByIdAsync(ids.ElementAt(i)));
-            }
-
-            return products;
+            return await _shopDBContext.Products.Where(p => ids.Contains(p.Id)).ToListAsync();
         }
 
+        /// <summary>
+        /// Получает список продуктов по фильтру
+        /// </summary>
+        /// <param name="page">Номер страницы в выборке</param>
+        /// <param name="categoryId">Номер категории</param>
+        /// <returns>Список продуктов</returns>
         public async Task<List<Product_DB>> GetProductsFromDBByFilterAsync(int page, int categoryId = 0)
         {
-            if (page == 0 && categoryId == 0)
+            if (page <= 0 || categoryId < 0)
             {
-                throw new ArgumentException("You must fill in at least one field");
+                throw new ArgumentException($"Invalid parameters. page: {page}, categoryId: {categoryId}");
             }
 
-            var products = new List<Product_DB>();
-            var productFrom = PerPage * (page - 1);
-            var productTo = (page * PerPage) - 1;
-            var productsDB = new List<Product_DB>();
+            var products = _shopDBContext.Products
+                .Include(p => p.ProductCategory)
+                .ThenInclude(pc => pc.Category).AsQueryable();
+            var from = PerPage * (page - 1);
 
             if (categoryId != 0)
             {
-                productsDB = await GetProductsFromDBByCategoryAsync(categoryId);
-            }
-            else
-            {
-                productsDB = await GetProductsFromDBAsync();
+                products = products.Where(p => p.ProductCategory.Any(pc => pc.Category_Id == categoryId));
             }
 
-            if (page == 0)
-            {
-                return productsDB;
-            }
+            products = products
+                .Skip(from)
+                .Take(PerPage);
 
-            for (int i = productFrom; i <= productTo; i++)
-            {
-                if (i <= productsDB.Count() - 1)
-                {
-                    products.Add(productsDB.ElementAt(i));
-                }
-
-            }
-            return products;
+            return await products.ToListAsync();
         }
     }
 }

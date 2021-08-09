@@ -119,5 +119,52 @@ namespace Services
                 //Assert
                 Assert.Equal(36, count);
             });
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(12)]
+        [InlineData(32)]
+        public async Task GetOrdersByFilterAsync_Success(int page)
+            => await WithDBContextAsync(async (context) =>
+            {
+                //Arrange
+                var orders = new List<Order_DB>();
+                for (int i = 1; i < 500; i++)
+                {
+                    orders.Add(Order_DB.GetDefaultValue(i));
+                }
+                await context.Shop_Orders.AddRangeAsync(orders);
+                await context.SaveChangesAsync();
+                var service = new OrderService(context);
+
+                //Act
+                var result = await service.GetOrdersByFilterAsync(page);
+
+                //Assert
+                Assert.NotNull(result);
+                Assert.Equal(14, result.Count());
+            });
+
+        [Fact]
+        public async Task GetOrdersByFilterAsync_ZeroPage_Exception()
+            => await WithDBContextAsync(async (context) =>
+            {
+                //Arrange
+                var orders = new List<Order_DB>();
+                for (int i = 1; i < 500; i++)
+                {
+                    orders.Add(Order_DB.GetDefaultValue(i));
+                }
+                await context.Shop_Orders.AddRangeAsync(orders);
+                await context.SaveChangesAsync();
+                var service = new OrderService(context);
+
+                //Act
+                Func<Task> act = () => service.GetOrdersByFilterAsync(0);
+
+                //Assert
+                var exception = await Assert.ThrowsAsync<ArgumentException>(act);
+                Assert.Equal("Page is can`t be 0", exception.Message);
+            });
     }
 }

@@ -23,55 +23,6 @@ namespace DeamonSharps.Shop.Simple.Api.Services
         }
 
         /// <summary>
-        /// Получить список всех продуктов
-        /// </summary>
-        /// <returns>Список продуктов</returns>
-        [HttpGet(nameof(GetProducts))]
-        [SwaggerOperation(nameof(GetProducts))]
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<Product>))]
-        public async Task<IActionResult> GetProducts()
-        {
-            try
-            {
-                var productsDB = await _productService.GetProductsFromDBAsync();
-
-                var products = await ConvertProductsDBToProducts(productsDB);
-                return Ok(products);
-            }
-            catch (System.Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
-        }
-
-        /// <summary>
-        /// Получить список продуктов по категории
-        /// </summary>
-        /// <param name="categoryId">Номер категории</param>
-        /// <returns>Список продуктов</returns>
-        [HttpGet(nameof(GetProductsByCategory))]
-        [SwaggerOperation(nameof(GetProductsByCategory))]
-        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(List<Product>))]
-        public async Task<IActionResult> GetProductsByCategory(int categoryId)
-        {
-            try
-            {
-                var productsDB = await _productService.GetProductsFromDBByCategoryAsync(categoryId);
-                if (productsDB == null)
-                {
-                    return BadRequest($"Категории с Id:{categoryId} не существует или в категории нет продуктов");
-                }
-                var products = await ConvertProductsDBToProducts(productsDB);
-                return Ok(products);
-            }
-            catch (System.Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        /// <summary>
         /// Получить список продуктов по фильтру
         /// </summary>
         /// <param name="category">Номер категории продуктов</param>
@@ -97,6 +48,7 @@ namespace DeamonSharps.Shop.Simple.Api.Services
                 return BadRequest(e.Message);
             }
         }
+
         /// <summary>
         /// Получает категории из базы данных
         /// </summary>

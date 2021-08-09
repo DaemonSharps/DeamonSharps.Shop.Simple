@@ -79,7 +79,7 @@ namespace DeamonSharps.Shop.Simple.DataBase.Context
             }
 
             var products = new List<Product_DB>();
-            for (int i = 1; i < categories.Count * 2 + 1; i++)
+            for (int i = 1; i <= categories.Count * 20; i++)
             {
                 var prod = Product_DB.GetDefaultValue(i);
                 products.Add(prod);
@@ -88,7 +88,9 @@ namespace DeamonSharps.Shop.Simple.DataBase.Context
             var productCategory = new List<ProductCategory_DB>();
             for (int i = 0; i < categories.Count; i++)
             {
-                for (int j = i; j <= i + 1; j++)
+                var from = i * 20;
+                var to = (i + 1) * 20;
+                for (int j = from; j < to; j++)
                 {
                     var prodCat = new ProductCategory_DB
                     {

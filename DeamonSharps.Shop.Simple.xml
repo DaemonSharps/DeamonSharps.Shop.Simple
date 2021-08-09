@@ -24,19 +24,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProducts">
-            <summary>
-            Получить список всех продуктов
-            </summary>
-            <returns>Список продуктов</returns>
-        </member>
-        <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProductsByCategory(System.Int32)">
-            <summary>
-            Получить список продуктов по категории
-            </summary>
-            <param name="categoryId">Номер категории</param>
-            <returns>Список продуктов</returns>
-        </member>
         <member name="M:DeamonSharps.Shop.Simple.Api.Services.ProductServiceController.GetProductsByFilter(System.Int32,System.Int32)">
             <summary>
             Получить список продуктов по фильтру
@@ -475,24 +462,40 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetProductsFromDBAsync">
-            <summary>
-            Получить список всех продуктов
-            </summary>
-            <returns>Список продуктов</returns>
-        </member>
-        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetProductsFromDBByCategoryAsync(System.Int32)">
-            <summary>
-            Получить список продуктов по категории
-            </summary>
-            <param name="categoryId">Номер категории</param>
-            <returns>Список продуктов</returns>
-        </member>
         <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetCategoriesFromDBAsync">
             <summary>
             Получает категории из базы данных
             </summary>
             <returns>Список категорий</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetCategoryByIdFromDBAsync(System.Int32)">
+            <summary>
+            Получает категорию по её ID
+            </summary>
+            <param name="id">Id категории</param>
+            <returns>Категория продукта</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetProductFromDBByIdAsync(System.Int32)">
+            <summary>
+            Получает продукт по его ID
+            </summary>
+            <param name="id">Id продукта</param>
+            <returns>Продукт</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetProductsFromDBByIdsAsync(System.Collections.Generic.IEnumerable{System.Int32})">
+            <summary>
+            Получает продукты по списку идентификаторов
+            </summary>
+            <param name="ids">Список Id</param>
+            <returns>Список продуктов</returns>
+        </member>
+        <member name="M:DeamonSharps.Shop.Simple.Services.ProductService.GetProductsFromDBByFilterAsync(System.Int32,System.Int32)">
+            <summary>
+            Получает список продуктов по фильтру
+            </summary>
+            <param name="page">Номер страницы в выборке</param>
+            <param name="categoryId">Номер категории</param>
+            <returns>Список продуктов</returns>
         </member>
     </members>
 </doc>
