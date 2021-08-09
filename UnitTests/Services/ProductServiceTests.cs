@@ -16,7 +16,7 @@ namespace Services
         public ProductServiceTests() 
             : base(new DbContextOptionsBuilder<ShopDBContext>()
                   .UseMySql(TestParameters.TestDBCOnnection)
-                  .Options) { }
+                  .Options, typeof(ProductServiceTests)) { }
 
         [Fact]
         public async Task GetCategoriesFromDBAsync_Succes()
