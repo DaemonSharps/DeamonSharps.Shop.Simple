@@ -9,7 +9,7 @@ namespace DeamonSharps.Shop.Simple.Models
     {
         public string Title { get; set; } = "Магазин";
 
-        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
 
         public List<CategoryViewModel> Categories { get; set; }
 

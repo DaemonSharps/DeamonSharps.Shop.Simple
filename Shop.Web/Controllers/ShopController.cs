@@ -21,8 +21,9 @@ namespace DeamonSharps.Shop.Simple.Controllers
         /// Страница с продуктами в категории или всеми товарами
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> Index(int categoryId, string categoryName)
+        public async Task<IActionResult> Index()
         {
+            var categoryId = int.Parse(HttpContext.Request.Cookies?.FirstOrDefault(c => c.Key == "categoryId").Value??"0");
             var productsDB = await _productService.GetProductsFromDBByFilterAsync(1, categoryId);
 
             var products = productsDB
@@ -45,12 +46,13 @@ namespace DeamonSharps.Shop.Simple.Controllers
                 new CategoryViewModel
                 {
                     Id = c.Id,
-                    Name = c.Name
+                    Name = c.Name,
+                    State = c.Id == categoryId ? "active" : null
                 }).ToList();
 
             var model = new ShopPageViewModel
             {
-                CategoryName = categoryName ?? "Все товары",
+                CategoryId = categoryId,
                 Products = products,
                 Categories = categories
             };

@@ -1,5 +1,5 @@
 ﻿function onAdd() {
-    $("a[id^='Add_']").click(function () {
+    $(document).on('click', "a[id^='Add_']", function () {
         var prodId = $(this).attr("id").split("_")[1];
         console.log(prodId);
         var prodCountElement = document.getElementById("productCount_" + prodId);
@@ -11,7 +11,7 @@
     });
 }
 function onDelete() {
-    $("a[id^='Delete_']").click(function () {
+    $(document).on('click',"a[id^='Delete_']", function () {
         var prodId = $(this).attr("id").split("_")[1];
         console.log(prodId);
         var prodCountElement = document.getElementById("productCount_" + prodId);
@@ -24,7 +24,7 @@ function onDelete() {
     });
 }
 function onChangeCount() {
-    $("input[id^='productCount_']").change(function () {
+    $(document).on('change',"input[id^='productCount_']", function () {
         var prodId = $(this).attr("id").split("_")[1];
         var count = $(this).val();
         console.log("change count:" + prodId + "  " + count);
@@ -48,11 +48,18 @@ function UpdateActiveCategoryButton(id) {
             $("#" + buttons[i].id).toggleClass('active');
         }
     }
-    $("#" + id).toggleClass('active', true);
+    $("#" + id).toggleClass('active');
 }
 $("[id^='CategorySelect_']").click(function () {
     let catId = +$(this).attr("id").split("_")[1];
-    
+    if ($(this).hasClass('active')) {
+        catId = 0;
+    }
+
+    let cookieTime = new Date();
+    cookieTime.setMilliseconds(cookieTime.getMilliseconds() + 100000);
+    document.cookie = 'categoryId=' + catId + ';expires=' + cookieTime.toLocaleTimeString();
+
     $.ajax({
         url: 'api/ProductService/GetProductsByFilter',
         type: 'GET',
@@ -74,6 +81,7 @@ $("[id^='CategorySelect_']").click(function () {
                 let showButton = $('#showMoreProducts');
                 showButton.show();
                 showButton.attr('data-category', catId);
+                showButton.attr('data-page', 1);
             }
         }
     });
@@ -88,11 +96,8 @@ function RenderProductCard(product) {
         data: JSON.stringify(product),
         dataType: 'html',
         success: function (data) {
-            document.getElementById('products').innerHTML += data;
+            $('#products').append(data);
             UpdateProductCount(product.id);
-            onAdd();
-            onDelete();
-            onChangeCount();
         }
 
     });  
@@ -138,6 +143,7 @@ function GetProductsFromPage() {
     }
     return products;
 }
+
 $('#showMoreProducts').click(function () {
     let showMoreButton = $(this);
     let page = showMoreButton.attr('data-page');

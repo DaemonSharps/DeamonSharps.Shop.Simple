@@ -9,7 +9,7 @@
                     <ul class="nav nav-selector flex-column">
                         @foreach (var category in Model.Categories)
                         {
-                            <li class="p-1 text-center"><a id="CategorySelect_@category.Id" class="nav-link">@category.Name</a></li>
+                            <li class="p-1 text-center"><a id="CategorySelect_@category.Id" class="nav-link @category.State">@category.Name</a></li>
                         }
                     </ul>
                 </div>
@@ -25,7 +25,7 @@
                     }
                 </div>
                 <div class="d-flex justify-content-center">
-                    <input id="showMoreProducts" data-page="1" data-category="0" class="btn btn-outline-secondary" type="button" value="Показать еще" />
+                    <input id="showMoreProducts" data-page="1" data-category="@Model.CategoryId" class="btn btn-outline-secondary" type="button" value="Показать еще" />
                 </div>
             </div>
         </div>
