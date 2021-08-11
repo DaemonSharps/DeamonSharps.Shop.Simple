@@ -16,23 +16,9 @@ namespace DaemonSharps.Shop.UnitTests
     /// <typeparam name="T">Класс контекста БД</typeparam>
     public class DBTestBase<T> where T: DbContext, IDefaultValue<List<object>>
     {
-        public static Type TestClassType = null;
-        protected DBTestBase(DbContextOptions<T> options, Type testClass)
+        protected DBTestBase(DbContextOptions<T> options)
         {
             ContextOptions = options;
-
-            //Блок нужен, для того, чтобы с БД одновременно работал только один тестовый класс
-            do
-            {
-                if (TestClassType == null)
-                {
-                    TestClassType = testClass;
-                }
-                else if (TestClassType != testClass)
-                {
-                    Thread.Sleep(100);
-                }
-            } while (TestClassType != testClass);
             
             Seed();
         }
@@ -58,8 +44,6 @@ namespace DaemonSharps.Shop.UnitTests
             using (var context = (T)Activator.CreateInstance(typeof(T), ContextOptions))
             {
                 await action(context);
-
-                TestClassType = null;
             }
         }
     }

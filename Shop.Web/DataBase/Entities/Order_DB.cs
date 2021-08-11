@@ -57,23 +57,13 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
             {
                 Order_Id = index,
                 Product_Id = 1,
-                Product = Product_DB.GetDefaultValue(index),
                 ProductCount = index * 10
             };
-            var status = new OrderStatus_DB
-            {
-                Id = 1,
-                Name = OrderStatus.Created.ToString()
-            };
-            var user = User_DB.GetDefaultValue(2);
-
             return new Order_DB{
                 Id = index,
                 Creation_Date = DateTime.Today,
                 Status_Id = 1,
-                Status = status,
                 User_Id = 2,
-                User = user, 
                 Order_Composition = new List<OrderComposition_DB> { item }
             };
         }

@@ -16,8 +16,8 @@ namespace Services
     {
         public OrderServiceTests()
             : base(new DbContextOptionsBuilder<ShopDBContext>()
-                  .UseMySql(TestParameters.TestDBCOnnection)
-                  .Options, typeof(OrderServiceTests)) { }
+                  .UseMySql(TestParameters.GetConnectionString("M5UEG6d04a", "zsIkBXfF0Y"))
+                  .Options) { }
 
         [Fact]
         public async Task CreateOrderInDBAsync_Success()
