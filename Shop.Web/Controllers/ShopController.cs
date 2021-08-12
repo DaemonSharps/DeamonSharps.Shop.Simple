@@ -12,10 +12,12 @@ namespace DeamonSharps.Shop.Simple.Controllers
     public class ShopController : Controller
     {
         private readonly IProductService _productService;
+        private readonly ICookieProvider _cookieProvider;
 
-        public ShopController(IProductService productService)
+        public ShopController(IProductService productService, ICookieProvider cookieProvider)
         {
             _productService = productService;
+            _cookieProvider = cookieProvider;
         }
         /// <summary>
         /// Страница с продуктами в категории или всеми товарами
@@ -23,7 +25,7 @@ namespace DeamonSharps.Shop.Simple.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var categoryId = int.Parse(HttpContext.Request.Cookies?.FirstOrDefault(c => c.Key == "categoryId").Value??"0");
+            var categoryId = int.Parse(_cookieProvider.GetCookieValue("categoryId") ?? "0");
             var productsDB = await _productService.GetProductsFromDBByFilterAsync(1, categoryId);
 
             var products = productsDB

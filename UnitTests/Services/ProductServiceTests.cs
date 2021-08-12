@@ -3,24 +3,22 @@ using DeamonSharps.Shop.Simple.DataBase.Context;
 using DeamonSharps.Shop.Simple.Services;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Services
 {
-    public class ProductServiceTests: DBTestBase<ShopDBContext>
+    public class ProductServiceTests : DBTestBase<ShopDBContext>
     {
-        public ProductServiceTests() 
+        public ProductServiceTests()
             : base(new DbContextOptionsBuilder<ShopDBContext>()
                   .UseMySql(TestParameters.GetConnectionString("R4VySZ3Qpq", "SuEOrDOZd1"))
-                  .Options) { }
+                  .Options)
+        { }
 
         [Fact]
         public async Task GetCategoriesFromDBAsync_Succes()
-            => await WithDBContextAsync(async(context) => 
+            => await WithDBContextAsync(async (context) =>
             {
                 //Arrange
                 var service = new ProductService(context);
@@ -48,7 +46,7 @@ namespace Services
 
                 //Assert
                 Assert.NotNull(result);
-                Assert.Equal(id,result.Id);
+                Assert.Equal(id, result.Id);
                 Assert.Equal($"name{id}", result.Name);
             });
 
@@ -79,7 +77,7 @@ namespace Services
             {
                 //Arrange
                 var service = new ProductService(context);
-                var ids = new[] {1,5,8 };
+                var ids = new[] { 1, 5, 8 };
 
                 //Act
                 var result = await service.GetProductsFromDBByIdsAsync(ids);
@@ -134,7 +132,7 @@ namespace Services
                 var service = new ProductService(context);
 
                 //Act
-                Func<Task> act = ()=> service.GetProductsFromDBByFilterAsync(page, categoryId);
+                Func<Task> act = () => service.GetProductsFromDBByFilterAsync(page, categoryId);
 
                 //Assert
                 var exception = await Assert.ThrowsAsync<ArgumentException>(act);

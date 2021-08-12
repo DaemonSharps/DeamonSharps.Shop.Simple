@@ -26,7 +26,7 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
         public List<Order_DB> Orders { get; set; } = new List<Order_DB>();
     }
 
-    public enum OrderStatus 
+    public enum OrderStatus
     {
         Created,
         InProgress,

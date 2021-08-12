@@ -12,22 +12,23 @@ using Xunit;
 
 namespace Services
 {
-    public class OrderServiceTests: DBTestBase<ShopDBContext>
+    public class OrderServiceTests : DBTestBase<ShopDBContext>
     {
         public OrderServiceTests()
             : base(new DbContextOptionsBuilder<ShopDBContext>()
                   .UseMySql(TestParameters.GetConnectionString("M5UEG6d04a", "zsIkBXfF0Y"))
-                  .Options) { }
+                  .Options)
+        { }
 
         [Fact]
         public async Task CreateOrderInDBAsync_Success()
-            => await WithDBContextAsync(async (context) => 
+            => await WithDBContextAsync(async (context) =>
             {
                 //Arrange
-                var cartItems = new List<CartItem> 
+                var cartItems = new List<CartItem>
                 {
                     new CartItem
-                    { 
+                    {
                         ProductId = 1,
                         Count = 20
                     },
@@ -65,7 +66,7 @@ namespace Services
                 var expectedOrder = context.Shop_Orders.FirstOrDefault(o => o.Id == order.Id);
                 Assert.NotNull(expectedOrder);
                 Assert.Equal(expectedOrder, order);
-                
+
             });
 
         [Fact]
@@ -80,7 +81,7 @@ namespace Services
 
                 //Assert
                 var exception = await Assert.ThrowsAsync<ArgumentException>(act);
-                Assert.Equal("Products count should be more than thero.",exception.Message);
+                Assert.Equal("Products count should be more than thero.", exception.Message);
             });
 
         [Fact]
@@ -101,7 +102,7 @@ namespace Services
 
         [Fact]
         public async Task GetPageCountAsync_Success()
-            => await WithDBContextAsync(async (context) => 
+            => await WithDBContextAsync(async (context) =>
             {
                 //Arrange
                 var orders = new List<Order_DB>();

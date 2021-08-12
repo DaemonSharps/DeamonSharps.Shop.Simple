@@ -1,11 +1,7 @@
-﻿using DeamonSharps.Shop.Simple.DataBase.Context;
-using DeamonSharps.Shop.Simple.DataBase.Entities;
-using DeamonSharps.Shop.Simple.Interfaces;
+﻿using DeamonSharps.Shop.Simple.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DaemonSharps.Shop.UnitTests
@@ -14,12 +10,12 @@ namespace DaemonSharps.Shop.UnitTests
     /// Универсальный базовый класс для тестов с базой данных
     /// </summary>
     /// <typeparam name="T">Класс контекста БД</typeparam>
-    public class DBTestBase<T> where T: DbContext, IDefaultValue<List<object>>
+    public class DBTestBase<T> where T : DbContext, IDefaultValue<List<object>>
     {
         protected DBTestBase(DbContextOptions<T> options)
         {
             ContextOptions = options;
-            
+
             Seed();
         }
 
@@ -39,7 +35,7 @@ namespace DaemonSharps.Shop.UnitTests
             }
         }
 
-        protected async Task WithDBContextAsync(Func<T,Task> action)
+        protected async Task WithDBContextAsync(Func<T, Task> action)
         {
             using (var context = (T)Activator.CreateInstance(typeof(T), ContextOptions))
             {

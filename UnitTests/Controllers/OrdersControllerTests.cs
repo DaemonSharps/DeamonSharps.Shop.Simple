@@ -2,12 +2,7 @@
 using DeamonSharps.Shop.Simple.Controllers;
 using DeamonSharps.Shop.Simple.DataBase.Entities;
 using DeamonSharps.Shop.Simple.Models;
-using DeamonSharps.Shop.Simple.Services;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

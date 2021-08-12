@@ -59,7 +59,8 @@ namespace DeamonSharps.Shop.Simple.DataBase.Entities
                 Product_Id = 1,
                 ProductCount = index * 10
             };
-            return new Order_DB{
+            return new Order_DB
+            {
                 Id = index,
                 Creation_Date = DateTime.Today,
                 Status_Id = 1,
